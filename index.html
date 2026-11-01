@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="light-content">
-    <title>广告法复习 Pro</title>
+    <title>广告法九部法规复习工具</title>
     <style>
         * {
             margin: 0;
@@ -15,1532 +13,1434 @@
         }
 
         :root {
-            --primary: #007AFF;
-            --primary-dark: #0051D5;
-            --success: #34C759;
-            --warning: #FF9500;
-            --danger: #FF3B30;
-            --bg-primary: #F2F2F7;
-            --bg-secondary: #FFFFFF;
-            --text-primary: #000000;
-            --text-secondary: #3C3C43;
-            --text-tertiary: #8E8E93;
-            --separator: rgba(60, 60, 67, 0.12);
-            --card-shadow: 0 2px 16px rgba(0, 0, 0, 0.06);
-            --card-shadow-hover: 0 8px 32px rgba(0, 0, 0, 0.12);
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --success: #16a34a;
+            --danger: #dc2626;
+            --warning: #ea580c;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-900: #111827;
+            --shadow: 0 1px 3px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1);
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", "Helvetica Neue", sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: var(--text-primary);
-            min-height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            background: white;
+            color: var(--gray-900);
+            line-height: 1.6;
             overflow-x: hidden;
         }
 
-        /* 主容器 */
-        .app-container {
-            max-width: 500px;
+        .container {
+            max-width: 800px;
             margin: 0 auto;
-            min-height: 100vh;
-            background: var(--bg-primary);
+            padding: 20px;
+            padding-bottom: 80px;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 0 20px;
+            border-bottom: 2px solid var(--gray-100);
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: var(--gray-600);
+        }
+
+        .nav-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .nav-card {
+            background: white;
+            border: 1px solid var(--gray-200);
+            border-radius: 12px;
+            padding: 20px 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
             position: relative;
         }
 
-        /* 顶部导航 */
-        .navbar {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: saturate(180%) blur(20px);
-            -webkit-backdrop-filter: saturate(180%) blur(20px);
-            padding: max(env(safe-area-inset-top), 12px) 20px 12px;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            border-bottom: 0.5px solid var(--separator);
-            box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.03);
+        .nav-card:active {
+            transform: scale(0.98);
+            background: var(--gray-50);
         }
 
-        .navbar-content {
+        .nav-card-icon {
+            width: 40px;
+            height: 40px;
+            margin: 0 auto 12px;
+        }
+
+        .nav-card-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 4px;
+        }
+
+        .nav-card-desc {
+            font-size: 12px;
+            color: var(--gray-600);
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 30px 0 16px;
+            color: var(--gray-900);
             display: flex;
             align-items: center;
+            gap: 8px;
+        }
+
+        .law-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .law-item {
+            background: white;
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
             justify-content: space-between;
+            align-items: center;
         }
 
-        .navbar-title {
-            font-size: 20px;
-            font-weight: 700;
-            letter-spacing: -0.5px;
+        .law-item:active {
+            background: var(--gray-50);
+            transform: translateX(4px);
         }
 
-        .navbar-btn {
+        .law-title {
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--gray-900);
+        }
+
+        .law-arrow {
+            width: 20px;
+            height: 20px;
+            color: var(--gray-400);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            color: white;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+        }
+
+        .btn-primary:active {
+            background: var(--primary-dark);
+        }
+
+        .btn-outline {
+            background: white;
+            border: 1px solid var(--gray-300);
+            color: var(--gray-700);
+        }
+
+        .btn-outline:active {
+            background: var(--gray-50);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Quiz Screen */
+        .quiz-header {
+            background: white;
+            border-bottom: 1px solid var(--gray-200);
+            padding: 16px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .quiz-progress {
+            font-size: 14px;
+            color: var(--gray-600);
+            font-weight: 500;
+        }
+
+        .quiz-close {
             width: 32px;
             height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border-radius: 8px;
+        }
+
+        .quiz-close:active {
+            background: var(--gray-100);
+        }
+
+        .question-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin: 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-100);
+        }
+
+        .question-type {
+            display: inline-block;
+            padding: 4px 12px;
+            background: var(--primary);
+            color: white;
             border-radius: 16px;
-            border: none;
-            background: var(--bg-primary);
-            color: var(--primary);
+            font-size: 12px;
+            font-weight: 500;
+            margin-bottom: 16px;
+        }
+
+        .question-text {
+            font-size: 16px;
+            line-height: 2.2;
+            color: var(--gray-900);
+            margin-bottom: 20px;
+        }
+
+        /* 修复后的填空横线样式 */
+        .blank {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 70px;
+            padding: 1px 10px;
+            margin: 0 4px;
+            border-bottom: 2px solid var(--primary);
+            background: var(--gray-100);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+            vertical-align: middle;
+            height: 28px;
+            line-height: 26px;
+        }
+
+        .blank:hover {
+            background: #e0e7ff;
+        }
+
+        .blank.unanswered {
+            color: #94a3b8;
+            font-size: 12px;
+            letter-spacing: 2px;
+        }
+
+        .blank.answered {
+            background: #eff6ff;
+            color: var(--primary-dark);
+            font-weight: 600;
+            border-bottom-color: var(--success);
+        }
+
+        .blank-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--shadow-lg);
+            z-index: 1000;
+            min-width: 280px;
+            max-width: 90%;
+        }
+
+        .blank-popup-answer {
             font-size: 18px;
+            font-weight: 600;
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .blank-popup-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .blank-btn {
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            gap: 8px;
         }
 
-        .navbar-btn:active {
-            transform: scale(0.9);
-            background: var(--separator);
-        }
-
-        /* 进度卡片 */
-        .progress-card {
-            margin: 16px 20px;
-            padding: 20px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            border-radius: 20px;
-            box-shadow: 0 8px 24px rgba(0, 122, 255, 0.25);
-            color: white;
-            animation: slideDown 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .progress-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-        }
-
-        .progress-title {
-            font-size: 15px;
-            font-weight: 600;
-            opacity: 0.9;
-        }
-
-        .progress-percentage {
-            font-size: 28px;
-            font-weight: 700;
-            letter-spacing: -1px;
-        }
-
-        .progress-stats {
-            display: flex;
-            gap: 20px;
-            margin-top: 16px;
-        }
-
-        .stat-item {
-            flex: 1;
-        }
-
-        .stat-label {
-            font-size: 13px;
-            opacity: 0.8;
-            margin-bottom: 4px;
-        }
-
-        .stat-value {
-            font-size: 24px;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-        }
-
-        .progress-bar-container {
-            height: 8px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 4px;
-            overflow: hidden;
-            margin-top: 16px;
-        }
-
-        .progress-bar-fill {
-            height: 100%;
-            background: white;
-            border-radius: 4px;
-            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 0 12px rgba(255, 255, 255, 0.5);
-        }
-
-        /* 分类选择 */
-        .category-section {
-            padding: 20px;
-            animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
-        .section-title {
-            font-size: 22px;
-            font-weight: 700;
-            margin-bottom: 16px;
-            letter-spacing: -0.5px;
-        }
-
-        .category-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-        }
-
-        .category-card {
-            background: var(--bg-secondary);
-            border-radius: 16px;
-            padding: 20px;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: var(--card-shadow);
-            position: relative;
-            overflow: hidden;
-            text-align: left;
-        }
-
-        .category-card:active {
-            transform: scale(0.96);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-        }
-
-        .category-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary), var(--primary-dark));
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .category-card:hover::before {
-            transform: scaleX(1);
-        }
-
-        .category-card.all {
-            grid-column: 1 / -1;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+        .blank-btn-correct {
+            background: var(--success);
             color: white;
         }
 
-        .category-icon {
-            margin-bottom: 12px;
+        .blank-btn-wrong {
+            background: var(--danger);
+            color: white;
         }
 
-        .category-icon svg {
-            width: 32px;
-            height: 32px;
-            display: block;
-        }
-
-        .category-card.all .category-icon svg {
-            stroke: white;
-        }
-
-        .category-name {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 6px;
-            text-align: left;
-        }
-
-        .category-count {
-            font-size: 13px;
-            opacity: 0.6;
-            text-align: left;
-        }
-
-        /* 学习页面 */
-        .study-page {
-            display: none;
+        .overlay {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: var(--bg-primary);
-            z-index: 2000;
-            animation: slideInRight 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
         }
 
-        .study-page.active {
-            display: block;
-        }
-
-        @keyframes slideInRight {
-            from {
-                transform: translateX(100%);
-            }
-            to {
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes slideOutRight {
-            from {
-                transform: translateX(0);
-            }
-            to {
-                transform: translateX(100%);
-            }
-        }
-
-        .study-page.closing {
-            animation: slideOutRight 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .study-header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: saturate(180%) blur(20px);
-            -webkit-backdrop-filter: saturate(180%) blur(20px);
-            padding: max(env(safe-area-inset-top), 12px) 20px 12px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 0.5px solid var(--separator);
-        }
-
-        .back-btn {
-            width: 32px;
-            height: 32px;
-            border-radius: 16px;
-            border: none;
-            background: var(--bg-primary);
-            color: var(--primary);
-            font-size: 20px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-        }
-
-        .back-btn:active {
-            transform: scale(0.9);
-        }
-
-        .study-title {
-            font-size: 17px;
-            font-weight: 600;
-            flex: 1;
-            text-align: center;
-        }
-
-        .mode-toggle {
-            display: flex;
-            gap: 8px;
-        }
-
-        .mode-btn {
-            padding: 6px 12px;
-            border-radius: 12px;
-            border: none;
-            background: var(--bg-primary);
-            color: var(--text-secondary);
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .mode-btn.active {
-            background: var(--primary);
-            color: white;
-            transform: scale(1.05);
-        }
-
-        /* 题目卡片 */
-        .card-wrapper {
-            padding: 20px;
-            min-height: calc(100vh - 200px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .question-card {
-            background: var(--bg-secondary);
-            border-radius: 24px;
-            padding: 32px 24px;
-            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.08);
-            width: 100%;
-            animation: cardFadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        @keyframes cardFadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px) scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        .card-progress-mini {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 16px;
-            border-bottom: 1px solid var(--separator);
-        }
-
-        .card-category-badge {
-            display: inline-block;
-            padding: 4px 12px;
-            background: var(--primary);
-            color: white;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        .card-stats {
-            display: flex;
-            gap: 12px;
-            font-size: 13px;
-        }
-
-        .stat-correct {
-            color: var(--success);
-            font-weight: 600;
-        }
-
-        .stat-correct::before {
-            content: '';
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-            margin-right: 4px;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%2334C759" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg>') no-repeat center;
-            background-size: contain;
-            vertical-align: middle;
-        }
-
-        .stat-wrong {
-            color: var(--danger);
-            font-weight: 600;
-        }
-
-        .stat-wrong::before {
-            content: '';
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-            margin-right: 4px;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23FF3B30" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M15 9l-6 6M9 9l6 6"/></svg>') no-repeat center;
-            background-size: contain;
-            vertical-align: middle;
-        }
-
-        .question-text {
-            font-size: 18px;
-            line-height: 1.8;
-            color: var(--text-primary);
-            margin-bottom: 24px;
-            letter-spacing: 0.2px;
-        }
-
-        .blank {
-            display: inline-block;
-            border-bottom: 2px solid var(--primary);
-            padding: 0 8px;
-            min-width: 80px;
-            cursor: pointer;
-            color: transparent;
-            user-select: none;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            font-weight: 600;
-        }
-
-        .blank::after {
-            content: '?';
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            color: var(--primary);
-            font-size: 16px;
-            opacity: 0.5;
-        }
-
-        .blank.revealed {
-            color: var(--primary);
-            background: linear-gradient(135deg, rgba(0, 122, 255, 0.1), rgba(0, 122, 255, 0.05));
-            border-radius: 8px;
-            padding: 4px 12px;
-            animation: revealPop 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .blank.revealed::after {
-            display: none;
-        }
-
-        @keyframes revealPop {
-            0% {
-                transform: scale(0.9);
-                opacity: 0;
-            }
-            50% {
-                transform: scale(1.1);
-            }
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
-        /* 翻卡牌模式 */
-        .flip-card-container {
-            perspective: 1000px;
-            min-height: 250px;
-            margin: 24px 0;
-        }
-
-        .flip-card-inner {
-            position: relative;
-            width: 100%;
-            min-height: 250px;
-            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-            transform-style: preserve-3d;
-        }
-
-        .flip-card-container.flipped .flip-card-inner {
-            transform: rotateY(180deg);
-        }
-
-        .flip-card-face {
-            position: absolute;
-            width: 100%;
-            backface-visibility: hidden;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            min-height: 250px;
-        }
-
-        .flip-card-back {
-            transform: rotateY(180deg);
-        }
-
-        .flip-hint {
-            text-align: center;
-            color: var(--text-tertiary);
-            font-size: 14px;
-            margin-top: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .flip-icon {
-            animation: tap 1.5s infinite;
-        }
-
-        @keyframes tap {
-            0%, 100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.2);
-            }
-        }
-
-        /* 选择题选项 */
-        .options-container {
+        .options {
             display: flex;
             flex-direction: column;
             gap: 12px;
-            margin-top: 24px;
         }
 
         .option {
-            padding: 16px 20px;
-            background: var(--bg-primary);
-            border: 2px solid transparent;
-            border-radius: 16px;
+            background: white;
+            border: 2px solid var(--gray-200);
+            border-radius: 8px;
+            padding: 16px;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            font-size: 16px;
-            font-weight: 500;
-            position: relative;
-            overflow: hidden;
+            transition: all 0.2s;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
         }
 
-        .option::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(0, 122, 255, 0.1);
-            transform: translate(-50%, -50%);
-            transition: width 0.5s, height 0.5s;
-        }
-
-        .option:active::before {
-            width: 200%;
-            height: 200%;
+        .option:active {
+            transform: scale(0.98);
         }
 
         .option.selected {
             border-color: var(--primary);
-            background: rgba(0, 122, 255, 0.05);
-            transform: translateX(4px);
+            background: #eff6ff;
         }
 
         .option.correct {
-            border-color: var(--success);
-            background: rgba(52, 199, 89, 0.1);
-            animation: successPulse 0.5s;
+            border-color: var(--success) !important;
+            background: #f0fdf4 !important;
         }
 
         .option.wrong {
-            border-color: var(--danger);
-            background: rgba(255, 59, 48, 0.1);
-            animation: shake 0.5s;
+            border-color: var(--danger) !important;
+            background: #fef2f2 !important;
         }
 
-        @keyframes successPulse {
-            0%, 100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.02);
-            }
+        .option-label {
+            flex-shrink: 0;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid var(--gray-400);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--gray-600);
+            transition: all 0.2s;
         }
 
-        @keyframes shake {
-            0%, 100% {
-                transform: translateX(0);
-            }
-            25% {
-                transform: translateX(-8px);
-            }
-            75% {
-                transform: translateX(8px);
-            }
+        .option.selected .option-label {
+            border-color: var(--primary);
+            background: var(--primary);
+            color: white;
         }
 
-        /* 动作按钮 */
+        .option.correct .option-label {
+            border-color: var(--success) !important;
+            background: var(--success) !important;
+            color: white !important;
+        }
+
+        .option.wrong .option-label {
+            border-color: var(--danger) !important;
+            background: var(--danger) !important;
+            color: white !important;
+        }
+
+        .option-text {
+            flex: 1;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
         .action-buttons {
             display: flex;
             gap: 12px;
-            margin-top: 32px;
+            margin-top: 24px;
+            padding: 0 20px;
         }
 
-        .action-btn {
+        .action-buttons .btn {
             flex: 1;
+        }
+
+        .law-reference-box {
+            margin-top: 20px;
             padding: 16px;
-            border: none;
-            border-radius: 16px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
+            background: #f8fafc;
+            border-left: 4px solid var(--primary);
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+            border-left-width: 4px;
         }
 
-        .action-btn::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.3);
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
+        .law-reference-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
-        .action-btn:active::before {
-            width: 300%;
-            height: 300%;
+        .law-reference-content {
+            font-size: 14px;
+            color: var(--gray-700);
+            line-height: 1.7;
         }
 
-        .btn-wrong {
-            background: linear-gradient(135deg, var(--danger), #FF6B66);
-            color: white;
-            box-shadow: 0 4px 16px rgba(255, 59, 48, 0.3);
-        }
-
-        .btn-wrong:active {
-            transform: scale(0.96);
-            box-shadow: 0 2px 8px rgba(255, 59, 48, 0.2);
-        }
-
-        .btn-correct {
-            background: linear-gradient(135deg, var(--success), #5CD67F);
-            color: white;
-            box-shadow: 0 4px 16px rgba(52, 199, 89, 0.3);
-        }
-
-        .btn-correct:active {
-            transform: scale(0.96);
-            box-shadow: 0 2px 8px rgba(52, 199, 89, 0.2);
-        }
-
-        /* 底部导航 */
         .bottom-nav {
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: saturate(180%) blur(20px);
-            -webkit-backdrop-filter: saturate(180%) blur(20px);
-            padding: 12px 20px max(env(safe-area-inset-bottom), 12px);
+            background: white;
+            border-top: 1px solid var(--gray-200);
+            padding: 12px 20px;
             display: flex;
             gap: 12px;
-            border-top: 0.5px solid var(--separator);
-            box-shadow: 0 -1px 0 0 rgba(0, 0, 0, 0.03);
+            z-index: 100;
         }
 
-        .nav-button {
-            flex: 1;
-            padding: 14px;
-            border-radius: 14px;
-            border: none;
-            background: var(--bg-primary);
-            color: var(--primary);
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .nav-button:disabled {
-            opacity: 0.3;
-            cursor: not-allowed;
-        }
-
-        .nav-button:not(:disabled):active {
-            transform: scale(0.95);
-        }
-
-        .nav-button.primary {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
-            box-shadow: 0 4px 12px rgba(0, 122, 255, 0.25);
-        }
-
-        /* 设置面板 */
-        .settings-panel {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: var(--bg-secondary);
-            border-radius: 20px 20px 0 0;
-            padding: 24px 20px max(env(safe-area-inset-bottom), 24px);
-            transform: translateY(100%);
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 3000;
-            box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.12);
-        }
-
-        .settings-panel.active {
-            transform: translateY(0);
-        }
-
-        .settings-handle {
-            width: 36px;
-            height: 5px;
-            background: var(--separator);
-            border-radius: 3px;
-            margin: 0 auto 20px;
-        }
-
-        .settings-item {
-            padding: 16px 0;
-            border-bottom: 1px solid var(--separator);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .settings-item:last-child {
-            border-bottom: none;
-        }
-
-        .settings-label {
-            font-size: 16px;
-            font-weight: 500;
-        }
-
-        .settings-button {
-            padding: 8px 16px;
-            border-radius: 12px;
-            border: none;
-            background: var(--primary);
-            color: white;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .settings-button:active {
-            transform: scale(0.95);
-        }
-
-        /* 遮罩层 */
-        .overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.4);
-            z-index: 2999;
-            animation: fadeIn 0.3s;
-        }
-
-        .overlay.active {
-            display: block;
-        }
-
-        /* 加载动画 */
-        .loading {
-            text-align: center;
-            padding: 40px;
-            color: var(--text-tertiary);
-        }
-
-        .spinner {
-            width: 40px;
-            height: 40px;
-            margin: 0 auto 16px;
-            border: 3px solid var(--separator);
-            border-top-color: var(--primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
+        @media (max-width: 640px) {
+            .container {
+                padding: 16px;
             }
-        }
 
-        /* 响应式 */
-        @media (min-width: 768px) {
-            .category-grid {
-                grid-template-columns: repeat(3, 1fr);
+            h1 {
+                font-size: 20px;
+            }
+
+            .question-card {
+                margin: 16px;
+                padding: 20px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="app-container">
-        <!-- 首页 -->
-        <div id="homePage">
-            <!-- 导航栏 -->
-            <div class="navbar">
-                <div class="navbar-content">
-                    <div class="navbar-title">广告法复习</div>
-                    <button class="navbar-btn" onclick="toggleSettings()">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
-                            <circle cx="12" cy="12" r="3"/>
-                            <path d="M12 1v6m0 6v6M4.22 4.22l4.24 4.24m5.08 5.08l4.24 4.24M1 12h6m6 0h6M4.22 19.78l4.24-4.24m5.08-5.08l4.24-4.24"/>
-                        </svg>
-                    </button>
-                </div>
+    <!-- 首页 -->
+    <div id="homePage" class="container">
+        <header>
+            <h1>广告法九部法规复习工具</h1>
+            <p class="subtitle">逐题对照法律条文 · 强化记忆高频考点</p>
+        </header>
+
+        <div class="nav-grid">
+            <div class="nav-card" onclick="window.app.startQuiz('random', 'all')">
+                <svg class="nav-card-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                </svg>
+                <div class="nav-card-title">全题型总测试</div>
+                <div class="nav-card-desc">随机抽取全部法规考点</div>
             </div>
 
-            <!-- 进度卡片 -->
-            <div class="progress-card">
-                <div class="progress-header">
-                    <div class="progress-title">学习进度</div>
-                    <div class="progress-percentage" id="progressPercentage">0%</div>
-                </div>
-                <div class="progress-stats">
-                    <div class="stat-item">
-                        <div class="stat-label">总计</div>
-                        <div class="stat-value" id="totalCount">0</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-label">掌握</div>
-                        <div class="stat-value" id="masteredCount">0</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-label">薄弱</div>
-                        <div class="stat-value" id="weakCount">0</div>
-                    </div>
-                </div>
-                <div class="progress-bar-container">
-                    <div class="progress-bar-fill" id="progressBar"></div>
-                </div>
-            </div>
-
-            <!-- 分类选择 -->
-            <div class="category-section">
-                <div class="section-title">选择法规分类</div>
-                <div class="category-grid" id="categoryGrid"></div>
+            <div class="nav-card" onclick="window.app.showWeakPoints()">
+                <svg class="nav-card-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                </svg>
+                <div class="nav-card-title">错题专练</div>
+                <div class="nav-card-desc">针对薄弱法条巩固</div>
             </div>
         </div>
 
-        <!-- 学习页面 -->
-        <div class="study-page" id="studyPage">
-            <div class="study-header">
-                <button class="back-btn" onclick="closStudy()">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
-                        <path d="M19 12H5M12 19l-7-7 7-7"/>
-                    </svg>
-                </button>
-                <div class="study-title" id="studyPageTitle">全部法规</div>
-                <div class="mode-toggle">
-                    <button class="mode-btn active" data-mode="self">自评</button>
-                    <button class="mode-btn" data-mode="flip">翻卡</button>
-                    <button class="mode-btn" data-mode="choice">选择</button>
-                </div>
-            </div>
+        <div class="section-title">
+            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+            单元专项测试
+        </div>
 
-            <div class="card-wrapper" id="cardContainer">
-                <div class="loading">
-                    <div class="spinner"></div>
-                    <div>加载中...</div>
-                </div>
+        <div class="law-list">
+            <div class="law-item" onclick="window.app.startQuiz('sequential', 0)">
+                <span class="law-title">一、中华人民共和国广告法</span>
+                <svg class="law-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
             </div>
+            <div class="law-item" onclick="window.app.startQuiz('sequential', 1)">
+                <span class="law-title">二、互联网广告管理办法</span>
+                <svg class="law-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+            </div>
+            <div class="law-item" onclick="window.app.startQuiz('sequential', 2)">
+                <span class="law-title">三、公益广告促进和管理暂行办法</span>
+                <svg class="law-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+            </div>
+            <div class="law-item" onclick="window.app.startQuiz('sequential', 3)">
+                <span class="law-title">四、农药广告审查发布规定</span>
+                <svg class="law-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+            </div>
+            <div class="law-item" onclick="window.app.startQuiz('sequential', 4)">
+                <span class="law-title">五、兽药广告审查发布规定</span>
+                <svg class="law-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+            </div>
+            <div class="law-item" onclick="window.app.startQuiz('sequential', 5)">
+                <span class="law-title">六、医疗广告管理办法</span>
+                <svg class="law-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+            </div>
+            <div class="law-item" onclick="window.app.startQuiz('sequential', 6)">
+                <span class="law-title">七、广告管理条例</span>
+                <svg class="law-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+            </div>
+            <div class="law-item" onclick="window.app.startQuiz('sequential', 7)">
+                <span class="law-title">八、房地产广告发布规定</span>
+                <svg class="law-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+            </div>
+            <div class="law-item" onclick="window.app.startQuiz('sequential', 8)">
+                <span class="law-title">九、药品等四类广告审查管理暂行办法</span>
+                <svg class="law-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+            </div>
+        </div>
 
-            <div class="bottom-nav">
-                <button class="nav-button" id="prevBtn" onclick="goPrev()">上一题</button>
-                <button class="nav-button primary" id="nextBtn" onclick="goNext()">下一题</button>
-            </div>
+        <div class="section-title" style="margin-top: 40px;">
+            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+            </svg>
+            进度管理
+        </div>
+
+        <div style="display: flex; gap: 12px; margin-top: 16px;">
+            <button class="btn btn-outline" onclick="window.app.exportData()" style="flex: 1;">导出进度</button>
+            <button class="btn btn-outline" onclick="window.app.importData()" style="flex: 1;">导入进度</button>
+            <button class="btn btn-outline" onclick="window.app.clearData()" style="flex: 1;">重置数据</button>
         </div>
     </div>
 
-    <!-- 设置面板 -->
-    <div class="overlay" id="overlay" onclick="toggleSettings()"></div>
-    <div class="settings-panel" id="settingsPanel">
-        <div class="settings-handle"></div>
-        <div class="settings-item">
-            <div class="settings-label">随机排序</div>
-            <button class="settings-button" onclick="randomizeQuestions()">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" style="display:inline-block;vertical-align:middle;margin-right:4px">
-                    <path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/>
+    <!-- 答题页面 -->
+    <div id="quizPage" class="hidden">
+        <div class="quiz-header">
+            <span class="quiz-progress" id="quizProgress">1/100</span>
+            <div class="quiz-close" onclick="window.app.exitQuiz()">
+                <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                 </svg>
-                打乱
-            </button>
+            </div>
         </div>
-        <div class="settings-item">
-            <div class="settings-label">重置进度</div>
-            <button class="settings-button" onclick="resetProgress()">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" style="display:inline-block;vertical-align:middle;margin-right:4px">
-                    <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
-                    <path d="M3 3v5h5"/>
-                </svg>
-                重置
-            </button>
-        </div>
-        <div class="settings-item">
-            <div class="settings-label">导出数据</div>
-            <button class="settings-button" onclick="exportData()">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" style="display:inline-block;vertical-align:middle;margin-right:4px">
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
-                </svg>
-                导出
-            </button>
-        </div>
-        <div class="settings-item">
-            <div class="settings-label">导入数据</div>
-            <button class="settings-button" onclick="importData()">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" style="display:inline-block;vertical-align:middle;margin-right:4px">
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/>
-                </svg>
-                导入
-            </button>
+
+        <div id="questionContainer"></div>
+
+        <div class="bottom-nav">
+            <button class="btn btn-outline" onclick="window.app.prevQuestion()" id="prevBtn">上一题</button>
+            <button class="btn btn-primary" onclick="window.app.nextQuestion()" id="nextBtn">下一题</button>
         </div>
     </div>
+
+    <input type="file" id="fileInput" style="display: none;" accept=".json">
 
     <script>
-        // 完整题库 - 从广告法九部法规考点提取
-        const QUESTIONS = [
-            // 一、中华人民共和国广告法 (40+题)
-            { cat: '广告法', q: '在中华人民共和国境内，商品经营者或者服务提供者通过一定媒介和形式，直接或者间接介绍自己推销的商品或者服务的____活动，适用本法。', a: '商业广告', opts: ['商业广告', '公益广告', '宣传广告', '推广广告'] },
-            { cat: '广告法', q: '广告主体分为四类：广告主、广告经营者、____、广告代言人。', a: '广告发布者', opts: ['广告发布者', '广告监管者', '广告审查者', '广告制作者'] },
-            { cat: '广告法', q: '使用或变相使用____、国歌、国徽、军旗、军歌、军徽的广告不得发布。', a: '国旗', opts: ['国旗', '党旗', '团旗', '企业旗'] },
-            { cat: '广告法', q: '不得损害____和残疾人的身心健康。', a: '未成年人', opts: ['未成年人', '老年人', '妇女', '儿童'] },
-            { cat: '广告法', q: '特殊药品、药品类易制毒化学品、____的药品/医疗器械/治疗方法不得作广告。', a: '戒毒治疗', opts: ['戒毒治疗', '慢性病治疗', '急救治疗', '康复治疗'] },
-            { cat: '广告法', q: '处方药只能在指定____专业刊物发布。', a: '医学、药学', opts: ['医学、药学', '健康、养生', '科学、技术', '医疗、保健'] },
-            { cat: '广告法', q: '不得在____或公共场所发布声称全部或部分替代母乳的婴儿乳制品、饮料及其他食品广告。', a: '大众传播媒介', opts: ['大众传播媒介', '专业医学杂志', '母婴店铺', '医疗机构'] },
-            { cat: '广告法', q: '不得在大众传播媒介、公共场所、____、户外发布烟草广告。', a: '公共交通工具', opts: ['公共交通工具', '私人场所', '办公场所', '商业场所'] },
-            { cat: '广告法', q: '针对不满____周岁未成年人的商品或服务广告，不得劝诱其要求家长购买。', a: '十四', opts: ['十四', '十六', '十八', '十二'] },
-            { cat: '广告法', q: '不得使用"国家级""最高级""____"等用语。', a: '最佳', opts: ['最佳', '优秀', '良好', '先进'] },
-            { cat: '广告法', q: '不得谎称取得专利；不得使用未授予专利权的____作广告。', a: '专利申请', opts: ['专利申请', '专利技术', '专利产品', '专利方法'] },
-            { cat: '广告法', q: '医疗、药品、医疗器械广告不得作功效/安全性断言或保证，不得说明____、有效率。', a: '治愈率', opts: ['治愈率', '使用率', '推荐率', '满意率'] },
-            { cat: '广告法', q: '保健食品广告不得作功效/安全性断言或保证，不得涉及疾病____、治疗。', a: '预防', opts: ['预防', '诊断', '检查', '康复'] },
-            { cat: '广告法', q: '酒类广告不得诱导、怂恿饮酒或宣传____饮酒。', a: '无节制', opts: ['无节制', '适量', '少量', '健康'] },
-            { cat: '广告法', q: '教育培训广告不得对升学、考试、学位学历、____或培训效果作明示/暗示保证。', a: '合格证书', opts: ['合格证书', '学习成绩', '就业机会', '职业发展'] },
-            { cat: '广告法', q: '招商等广告必须提示____和责任承担；不得保证未来效果、收益。', a: '风险', opts: ['风险', '收益', '机会', '优势'] },
-            { cat: '广告法', q: '房地产广告面积须写____或套内建筑面积。', a: '建筑面积', opts: ['建筑面积', '使用面积', '占地面积', '总面积'] },
-            { cat: '广告法', q: '使用数据、统计资料、调查结果、文摘、引用语：标明____。', a: '真实出处', opts: ['真实出处', '数据来源', '研究机构', '发布时间'] },
-            { cat: '广告法', q: '处方药标明"本广告仅供____专业人士阅读"。', a: '医学药学', opts: ['医学药学', '医疗卫生', '健康管理', '药品销售'] },
-            { cat: '广告法', q: '保健食品标明"本品不能代替____"。', a: '药物', opts: ['药物', '食品', '营养品', '保健品'] },
-            { cat: '广告法', q: '不得使用不满____周岁的未成年人作代言人。', a: '十', opts: ['十', '十二', '十四', '十六'] },
-            { cat: '广告法', q: '商品/服务性能、功能、产地、用途、质量、规格、成分、价格、生产者、有效期限、____等与实际不符且影响购买的属虚假广告。', a: '销售状况', opts: ['销售状况', '品牌形象', '市场占有率', '用户评价'] },
-            { cat: '广告法', q: '使用虚构、伪造或无法验证的____、统计资料、调查结果、文摘、引用语属于虚假广告。', a: '科研成果', opts: ['科研成果', '用户评价', '专家意见', '市场数据'] },
-            { cat: '广告法', q: '除医疗、药品、医疗器械广告外，其他广告不得涉及____功能。', a: '疾病治疗', opts: ['疾病治疗', '保健养生', '健康管理', '营养补充'] },
-            { cat: '广告法', q: '农药、兽药、饲料和饲料添加剂广告不得以科研、学术、技术推广机构、行业协会、____或用户名义/形象推荐证明。', a: '专业人士', opts: ['专业人士', '政府部门', '检测机构', '质量监督'] },
-            { cat: '广告法', q: '种子、种畜禽、水产苗种广告的品种名称、性能、产量、品质、抗性必须____、清楚、明白。', a: '真实', opts: ['真实', '详细', '准确', '完整'] },
-            { cat: '广告法', q: '宣称附带赠送商品或服务的，必须明示赠品的品种、规格、数量、____和方式。', a: '期限', opts: ['期限', '价值', '来源', '质量'] },
-            { cat: '广告法', q: '电子信息广告：明示发送者真实____和联系方式，并提供拒绝继续接收的方式。', a: '身份', opts: ['身份', '姓名', '单位', '地址'] },
-            { cat: '广告法', q: '互联网弹出广告：显著标明____标志，确保一键关闭。', a: '关闭', opts: ['关闭', '退出', '取消', '停止'] },
-            { cat: '广告法', q: '虚假广告造成损害，____承担责任。', a: '广告主', opts: ['广告主', '广告经营者', '广告发布者', '代言人'] },
-
-            // 二、互联网广告管理办法 (10+题)
-            { cat: '互联网广告', q: '禁止利用互联网发布烟草（含____）广告。', a: '电子烟', opts: ['电子烟', '水烟', '雪茄', '烟草制品'] },
-            { cat: '互联网广告', q: '禁止利用互联网发布____广告（法律、行政法规另有规定的除外）。', a: '处方药', opts: ['处方药', '非处方药', '中成药', '保健品'] },
-            { cat: '互联网广告', q: '禁止以介绍____知识等形式变相发布医疗、药品、医疗器械、保健食品广告。', a: '健康、养生', opts: ['健康、养生', '医学、科普', '疾病、治疗', '营养、保健'] },
-            { cat: '互联网广告', q: '不得在搜索____网站、网页、应用程序、公众号等的结果中插入竞价排名广告。', a: '政务服务', opts: ['政务服务', '商业服务', '信息服务', '公共服务'] },
-            { cat: '互联网广告', q: '弹出广告不得没有关闭标志、____结束才能关闭。', a: '计时', opts: ['计时', '播放', '加载', '缓冲'] },
-            { cat: '互联网广告', q: '竞价排名的商品或服务：显著标明"____"，与自然搜索结果明显区分。', a: '广告', opts: ['广告', '推广', '赞助', '商业'] },
-            { cat: '互联网广告', q: '广告主、经营者、发布者应记录广告内容及电子数据，档案自发布行为终了之日起保存不少于____年。', a: '三', opts: ['三', '五', '七', '十'] },
-            { cat: '互联网广告', q: '健康知识页面不得同时出现相关经营者地址、联系方式、____等导流信息。', a: '购物链接', opts: ['购物链接', '产品介绍', '价格信息', '优惠活动'] },
-            { cat: '互联网广告', q: '不得以虚假的____、报错、清理、通知提示欺骗、误导用户点击。', a: '系统/软件更新', opts: ['系统/软件更新', '中奖信息', '安全提示', '消息通知'] },
-            { cat: '互联网广告', q: '____、知识介绍、体验分享、消费测评等带有推销性质的内容，不得伪装成自然结果。', a: '竞价排名', opts: ['竞价排名', '付费推广', '商业广告', '营销内容'] },
-
-            // 三、公益广告 (4题)
-            { cat: '公益广告', q: '公益广告是传播社会主义核心价值观、倡导良好道德风尚的____广告。', a: '非营利性', opts: ['非营利性', '公益性', '公共性', '社会性'] },
-            { cat: '公益广告', q: '企业出资公益广告不得标注商品或服务名称，也不得标注单位地址、网址、____或其他联系方式。', a: '电话号码', opts: ['电话号码', '电子邮箱', '社交账号', '二维码'] },
-            { cat: '公益广告', q: '平面标识面积不超过广告面积的____。', a: '1/5', opts: ['1/5', '1/4', '1/3', '1/2'] },
-            { cat: '公益广告', q: '音频、视频显示企业名称/商标不超过5秒或总时长的____。', a: '1/5', opts: ['1/5', '1/4', '1/3', '1/10'] },
-
-            // 四、农药广告 (4题)
-            { cat: '农药广告', q: '只有依法获得____批准登记的农药，才进入可发布广告的范围。', a: '国家', opts: ['国家', '省级', '地方', '行业'] },
-            { cat: '农药广告', q: '农药广告不得作功效或安全性____、保证。', a: '断言', opts: ['断言', '承诺', '说明', '宣传'] },
-            { cat: '农药广告', q: '不得含有"____、保险公司保险"等承诺。', a: '无效退款', opts: ['无效退款', '质量保证', '效果承诺', '价格优惠'] },
-            { cat: '农药广告', q: '农药广告____必须作为广告内容同时发布。', a: '批准文号', opts: ['批准文号', '登记证号', '生产许可', '质量标准'] },
-
-            // 五、兽药广告 (3题)
-            { cat: '兽药广告', q: '____、精神药品、兽医医疗单位配制的兽药制剂不得发布广告。', a: '兽用麻醉药品', opts: ['兽用麻醉药品', '兽用抗生素', '兽用疫苗', '兽用消毒剂'] },
-            { cat: '兽药广告', q: '不得使用"最高技术""最高科学""____"等绝对化表示。', a: '最进步制法', opts: ['最进步制法', '先进工艺', '优质产品', '高效配方'] },
-            { cat: '兽药广告', q: '不得贬低同类产品或与其他兽药进行功效、____对比。', a: '安全性', opts: ['安全性', '价格', '质量', '品牌'] },
-
-            // 六、医疗广告 (6题)
-            { cat: '医疗广告', q: '____不得发布医疗广告；医疗机构不得以内部科室名义发布医疗广告。', a: '非医疗机构', opts: ['非医疗机构', '私营医疗机构', '个体诊所', '医疗咨询机构'] },
-            { cat: '医疗广告', q: '未取得《____》不得发布医疗广告。', a: '医疗广告审查证明', opts: ['医疗广告审查证明', '医疗机构执业许可证', '广告发布许可证', '医疗广告备案证明'] },
-            { cat: '医疗广告', q: '医疗广告表现形式不得涉及医疗技术、诊疗方法、____、药物。', a: '疾病名称', opts: ['疾病名称', '医生姓名', '治疗费用', '医院地址'] },
-            { cat: '医疗广告', q: '不得利用患者、____、医学教育科研机构及人员的名义/形象作证明。', a: '卫生技术人员', opts: ['卫生技术人员', '医院管理人员', '医药销售人员', '健康咨询师'] },
-            { cat: '医疗广告', q: '医疗广告内容仅限标示：医疗机构____、地址、所有制形式等。', a: '第一名称', opts: ['第一名称', '全部名称', '简称', '商标名称'] },
-            { cat: '医疗广告', q: '不得利用____形式、医疗资讯服务类专题节目/栏目发布或变相发布医疗广告。', a: '新闻', opts: ['新闻', '报道', '访谈', '纪录片'] },
-
-            // 七、广告管理条例 (4题)
-            { cat: '广告管理条例', q: '违反我国法律、法规；损害我国民族尊严；含中国____、国徽、国歌标志的广告不得刊播。', a: '国旗', opts: ['国旗', '党旗', '军旗', '省旗'] },
-            { cat: '广告管理条例', q: '不得利用广播、电视、____为卷烟做广告。', a: '报刊', opts: ['报刊', '网络', '户外', '交通工具'] },
-            { cat: '广告管理条例', q: '新闻单位刊播广告必须有明确____，不得以新闻报道形式刊播广告并收取费用。', a: '标志', opts: ['标志', '说明', '标识', '提示'] },
-            { cat: '广告管理条例', q: '获奖商品：标明获奖级别和____。', a: '颁奖部门', opts: ['颁奖部门', '获奖时间', '评选机构', '奖项名称'] },
-
-            // 八、房地产广告 (10题)
-            { cat: '房地产广告', q: '未依法取得____使用权的土地上开发建设的房地产，不得发布广告。', a: '国有土地', opts: ['国有土地', '集体土地', '商业用地', '建设用地'] },
-            { cat: '房地产广告', q: '未经国家征用的____所有土地上建设的房地产，不得发布广告。', a: '集体', opts: ['集体', '私人', '个人', '农村'] },
-            { cat: '房地产广告', q: '预售房地产未取得项目____的，不得发布广告。', a: '预售许可证', opts: ['预售许可证', '建设许可证', '销售许可证', '规划许可证'] },
-            { cat: '房地产广告', q: '房源信息必须真实；面积必须明确为____或套内建筑面积。', a: '建筑面积', opts: ['建筑面积', '使用面积', '公摊面积', '占地面积'] },
-            { cat: '房地产广告', q: '不得承诺____或投资回报。', a: '升值', opts: ['升值', '保值', '增值', '涨价'] },
-            { cat: '房地产广告', q: '不得以到达某具体参照物所需____表示项目位置。', a: '时间', opts: ['时间', '距离', '路程', '车程'] },
-            { cat: '房地产广告', q: '不得误导宣传____中的交通、商业、文化教育设施。', a: '规划/建设', opts: ['规划/建设', '已建成', '在建', '拟建'] },
-            { cat: '房地产广告', q: '不得承诺为入住者办理____、就业、升学。', a: '户口', opts: ['户口', '产权', '贷款', '保险'] },
-            { cat: '房地产广告', q: '预售、销售广告必须载明开发企业名称和____。', a: '预售或销售许可证书号', opts: ['预售或销售许可证书号', '营业执照号', '建设许可证号', '规划许可证号'] },
-            { cat: '房地产广告', q: '对价格有表示：必须写明实际销售价格及价格____。', a: '有效期限', opts: ['有效期限', '优惠幅度', '支付方式', '计算方法'] },
-
-            // 九、四类广告审查 (15题)
-            { cat: '四类广告审查', q: '____、精神药品、医疗用毒性药品、放射性药品不得发布广告。', a: '麻醉药品', opts: ['麻醉药品', '处方药品', '抗生素', '疫苗'] },
-            { cat: '四类广告审查', q: '军队特需药品、____、医疗机构配制的制剂，不得发布广告。', a: '军队医疗机构配制的制剂', opts: ['军队医疗机构配制的制剂', '军队采购药品', '军队专用药品', '军队储备药品'] },
-            { cat: '四类广告审查', q: '处方药和特殊医学用途配方食品中的____，只能在指定医学、药学专业刊物发布。', a: '特定全营养配方食品', opts: ['特定全营养配方食品', '普通营养配方食品', '特殊营养配方食品', '婴儿配方食品'] },
-            { cat: '四类广告审查', q: '特殊医学用途____不得在大众传播媒介或公共场所发布。', a: '婴儿配方食品广告', opts: ['婴儿配方食品广告', '儿童配方食品广告', '成人配方食品广告', '老年配方食品广告'] },
-            { cat: '四类广告审查', q: '药品广告内容以核准____为准。', a: '说明书', opts: ['说明书', '注册证书', '批准文件', '检验报告'] },
-            { cat: '四类广告审查', q: '医疗器械广告内容以____或备案凭证及说明书为准。', a: '注册证书', opts: ['注册证书', '生产许可证', '经营许可证', '质量标准'] },
-            { cat: '四类广告审查', q: '保健食品广告不得涉及疾病____、治疗。', a: '预防', opts: ['预防', '诊断', '检查', '康复'] },
-            { cat: '四类广告审查', q: '不得使用国家机关、工作人员、____单位/人员名义或形象。', a: '军队', opts: ['军队', '政府', '事业单位', '国有企业'] },
-            { cat: '四类广告审查', q: '不得以科研单位、学术机构、行业协会、____名义/形象推荐证明。', a: '专家', opts: ['专家', '消费者', '明星', '网红'] },
-            { cat: '四类广告审查', q: '不得使用"安全""____""毒副作用小"等表述。', a: '安全无毒副作用', opts: ['安全无毒副作用', '副作用可控', '不良反应少', '使用安全'] },
-            { cat: '四类广告审查', q: '不得含"热销、抢购、试用""____、免费治疗、免费赠送"等诱导性内容。', a: '家庭必备', opts: ['家庭必备', '医生推荐', '患者首选', '市场领先'] },
-            { cat: '四类广告审查', q: '不得含"____、保险公司保险"等保证性内容。', a: '无效退款', opts: ['无效退款', '质量保证', '效果承诺', '假一赔十'] },
-            { cat: '四类广告审查', q: '四类广告均须显著标明广告____。', a: '批准文号', opts: ['批准文号', '注册证号', '备案编号', '许可证号'] },
-            { cat: '四类广告审查', q: '保健食品广告必须显著标明"保健食品不是药物，不能代替____治疗疾病"。', a: '药物', opts: ['药物', '医疗', '医生', '医院'] },
-            { cat: '四类广告审查', q: '特殊医学用途配方食品必须显著标明"请在____或临床营养师指导下使用"。', a: '医生', opts: ['医生', '药师', '营养师', '护士'] },
+        const LAW_NAMES = [
+            '《中华人民共和国广告法》',
+            '《互联网广告管理办法》',
+            '《公益广告促进和管理暂行办法》',
+            '《农药广告审查发布规定》',
+            '《兽药广告审查发布规定》',
+            '《医疗广告管理办法》',
+            '《广告管理条例》',
+            '《房地产广告发布规定》',
+            '《药品、医疗器械、保健食品、特殊医学用途配方食品广告审查管理暂行办法》'
         ];
 
-        // SVG图标定义
-        const ICONS = {
-            all: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><path d="M8 7h8M8 11h8M8 15h5"/></svg>',
-            law: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h6"/></svg>',
-            internet: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>',
-            charity: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>',
-            agriculture: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>',
-            veterinary: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4h2v2h-2zM9 7h6v2H9zM7 10h10v9a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2v-9z"/><path d="M10 16h4"/></svg>',
-            medical: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 10l-4 4 6 6 4-16-18 7 4 2 2 6 3-4z"/></svg>',
-            regulation: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 7h8M8 12h8M8 17h5"/></svg>',
-            realestate: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg>',
-            medical4: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M12 9v6M9 12h6M7 3h10M7 21h10"/></svg>'
+        function getClauseText(type, originalIndex, lawIndex) {
+            if (PRECISE_CLAUSES[type] && PRECISE_CLAUSES[type][originalIndex]) {
+                return PRECISE_CLAUSES[type][originalIndex];
+            }
+            return LAW_REFERENCES[lawIndex] || "依照相关法律法规规定执行。";
+        }
+
+        const LAW_REFERENCES = {
+            0: "《中华人民共和国广告法》：广告应当真实、合法，以健康的表现形式表达广告内容，符合社会主义精神文明建设和弘扬中华民族优秀传统文化的要求。广告不得含有虚假或者引人误解的内容，不得欺骗、误导消费者。",
+            1: "《互联网广告管理办法》：在中华人民共和国境内，利用网站、网页、互联网应用程序等互联网媒介，以文字、图片、音频、视频或者其他形式，直接或者间接地推销商品或者服务的商业广告活动，适用广告法和本办法的规定。",
+            2: "《公益广告促进和管理暂行办法》：公益广告是指传播社会主义核心价值观，倡导良好道德风尚，促进公民文明素质和社会文明程度提高，维护国家和社会公共利益的非营利性广告。",
+            3: "《农药广告审查发布规定》：未经国家批准登记的农药不得发布广告。农药广告内容应当与《农药登记证》和《农药登记公告》的内容相符，不得任意扩大范围。",
+            4: "《兽药广告审查发布规定》：发布兽药广告，应当遵守《广告法》及国家有关兽药管理的规定。兽用麻醉药品、精神药品以及兽医医疗单位配制的兽药制剂等不得发布广告。",
+            5: "《医疗广告管理办法》：本办法所称医疗广告，是指利用各种媒介或者形式直接或间接介绍医疗机构或医疗服务的广告。未取得《医疗广告审查证明》，不得发布医疗广告。",
+            6: "《广告管理条例》：广告内容必须真实、健康、清晰、明白，不得以任何形式欺骗用户和消费者。凡通过报刊、广播、电视、电影、路牌等媒介刊播、设置、张贴广告均属本条例管理范围。",
+            7: "《房地产广告发布规定》：房地产广告必须真实、合法、科学、准确，不得欺骗、误导消费者。房源信息应当真实，面积应当表明为建筑面积或者套内建筑面积。",
+            8: "《药品、医疗器械、保健食品、特殊医学用途配方食品广告审查管理暂行办法》：未经审查不得发布药品、医疗器械、保健食品和特殊医学用途配方食品广告。广告内容应当真实、合法，不得含有虚假或者引人误解的内容。"
         };
 
-        // 分类定义
-        const CATEGORIES = [
-            { id: 'all', name: '全部法规', icon: 'all', desc: '随机全部题目' },
-            { id: '广告法', name: '广告法', icon: 'law', desc: '核心基础法规' },
-            { id: '互联网广告', name: '互联网广告', icon: 'internet', desc: '网络广告规范' },
-            { id: '公益广告', name: '公益广告', icon: 'charity', desc: '公益广告管理' },
-            { id: '农药广告', name: '农药广告', icon: 'agriculture', desc: '农药广告审查' },
-            { id: '兽药广告', name: '兽药广告', icon: 'veterinary', desc: '兽药广告规定' },
-            { id: '医疗广告', name: '医疗广告', icon: 'medical', desc: '医疗广告管理' },
-            { id: '广告管理条例', name: '广告管理条例', icon: 'regulation', desc: '广告管理规定' },
-            { id: '房地产广告', name: '房地产广告', icon: 'realestate', desc: '房地产广告规定' },
-            { id: '四类广告审查', name: '四类广告审查', icon: 'medical4', desc: '药品医疗器械等' },
-        ];
+        const PRECISE_CLAUSES = {
+            fillblank: {
+                0: "《广告法》第二条：在中华人民共和国境内，商品经营者或者服务提供者通过一定媒介和形式，直接或者间接介绍自己推销的商品或者服务的商业广告活动，适用本法。",
+                1: "《广告法》第二条：本法所称广告主，是指为推销商品或者服务，自行或者委托他人设计、制作、发布广告的自然人、法人或者其他组织。广告经营者……广告发布者……广告代言人……",
+                2: "《广告法》第九条：广告不得有下列情形：（一）使用或者变相使用中华人民共和国的国旗、国歌、国徽，军旗、军歌、军徽；……",
+                3: "《广告法》第十五条：麻醉药品、精神药品、医疗用毒性药品、放射性药品等特殊药品，药品类易制毒化学品，以及戒毒治疗的药品、医疗器械和治疗方法，不得作广告。前款规定以外的处方药，只能在国务院卫生行政部门和国务院药品监督管理部门共同指定的医学、药学专业刊物上作广告。",
+                4: "《广告法》第二十条：禁止在大众传播媒介或者公共场所发布声称全部或者部分替代母乳的婴儿乳制品、饮料和其他食品广告。",
+                5: "《广告法》第二十二条：禁止在大众传播媒介或者公共场所、公共交通工具、户外发布烟草广告。禁止向未成年人发送任何形式的烟草广告。",
+                6: "《广告法》第四十条：在针对未成年人的大众传播媒介上不得发布医疗、药品、保健食品、医疗器械、化妆品、酒类、美容广告，以及不利于未成年人身心健康的网络游戏广告。",
+                7: "《广告法》第三十九条：不得在中小学校、幼儿园内开展广告活动，不得利用中小学生和幼儿的教材、教辅材料、练习册、文具、教具、校服、校车等发布或者变相发布广告，但公益广告除外。",
+                8: "《广告法》第四十条：针对不满十四周岁的未成年人的商品或者服务的广告不得含有下列内容：（一）劝诱其要求家长购买广告商品或者服务；（二）可能引发其模仿不安全行为。",
+                9: "《广告法》第四十三条：任何单位或者个人未经当事人同意或者请求，不得向其住宅、交通工具等发送广告，也不得以电子信息方式向其发送广告。",
+                10: "《广告法》第四十六条：发布医疗、药品、医疗器械、农药、兽药和保健食品广告，以及法律、行政法规规定应当进行审查的其他广告，应当在发布前由有关部门对广告内容进行审查；未经审查，不得发布。",
+                11: "《广告法》第二十八条：广告以虚假或者引人误解的内容欺骗、误导消费者的，构成虚假广告。商品或者服务不存在、与实际不符影响购买、使用伪造证明或无法验证的科研成果等均属虚假广告。",
+                12: "《广告法》第九条：广告不得有下列情形：……（三）使用“国家级”、“最高级”、“最佳”等用语；（二）使用或者变相使用国家机关、国家机关工作人员的名义或者形象；……",
+                13: "《广告法》第十一条：广告内容涉及的事项需要取得行政许可的，应当与许可的内容相符合。广告使用数据、统计资料、调查结果、文摘、引用语等引证内容的，应当真实、准确，并表明出处。引证内容有适用范围和有效期限的，应当明确表示。",
+                14: "《广告法》第十六条：医疗、药品、医疗器械广告不得含有下列内容：（一）表示功效、安全性的断言或者保证；（二）说明治愈率或者有效率；（三）与其他药品、医疗器械的功效和安全性或者其他医疗机构比较；（四）利用广告代言人作推荐、证明；……",
+                15: "《广告法》第十八条：保健食品广告不得含有下列内容：（一）表示功效、安全性的断言或者保证；（二）涉及疾病预防、治疗功能；（三）声称或者暗示广告商品为保障健康所必需；（四）与药品、其他保健食品进行比较；（五）利用广告代言人作推荐、证明；……",
+                16: "《广告法》第二十三条：酒类广告不得含有下列内容：（一）诱导、怂恿饮酒或者宣传无节制饮酒；（二）出现饮酒的动作；（三）表现驾驶车、船、飞机等活动；（四）明示或者暗示饮酒有消除紧张和焦虑、增加体力等功效。",
+                17: "《广告法》第二十四条：教育、培训广告不得含有下列内容：（一）对升学、通过考试、获得学位学历或者合格证书，或者对教育、培训的效果作出明示或者暗示的保证性承诺；（二）明示或者暗示有相关考试机构或者其工作人员、考试命题人员参与教育、培训；（三）利用科研单位、学术机构、教育机构、行业协会、专业人士、受益者的名义或者形象作推荐、证明。",
+                18: "《广告法》第二十五条：招商等有投资回报预期的商品或者服务广告，应当对可能存在的风险以及风险责任承担有合理提示或者警示，并不得含有下列内容：（一）对未来效果、收益或者与其相关的情况作出保证性承诺，明示或者暗示保本、无风险或者保收益等；……",
+                19: "《广告法》第二十六条：房地产广告，房源信息应当真实，面积应当表明为建筑面积或者套内建筑面积，并不得含有下列内容：（一）升值或者投资回报的承诺；（二）以项目到达某一具体参照物的所需时间表示项目位置；……",
+                20: "《广告法》第十六条、第十八条：药品广告应当显著标明禁忌、不良反应，处方药标明“本广告仅供医学药学专业人士阅读”，非处方药标明“请按药品说明书或者在药师指导下购买和使用”。保健食品广告应当显著标明“本品不能代替药物”。",
+                21: "《广告法》第十八条及《暂行办法》第七条：保健食品广告应当显著标明“保健食品不是药物，不能代替药物治疗疾病”，声明本品不能代替药物，并显著标明保健食品标志、适宜人群和不适宜人群。",
+                22: "《广告法》第三十八条：广告代言人在广告中对商品、服务作推荐、证明，应当依据事实。不得为其未使用过的商品或者未接受过的服务作推荐、证明。不得利用不满十周岁的未成年人作为广告代言人。对在虚假广告中作推荐、证明受到行政处罚未满三年的自然人、法人或者其他组织，不得利用其作为广告代言人。",
+                23: "《互联网广告管理办法》第二条：在中华人民共和国境内，利用网站、网页、互联网应用程序等互联网媒介，以文字、图片、音频、视频或者其他形式，直接或者间接地推销商品或者服务的商业广告活动，适用广告法和本办法的规定。",
+                24: "《互联网广告管理办法》第十九条：商品销售者或者服务提供者通过互联网直播方式推销商品或者服务，构成商业广告的，应当依法承担广告主的责任和义务。直播间运营者、营销人员接受委托的，依法承担广告经营者、发布者责任；构成广告代言的，承担广告代言人责任。",
+                25: "《互联网广告管理办法》第六条：禁止利用互联网发布烟草（含电子烟）广告。禁止利用互联网发布处方药广告，法律、行政法规另有规定的，依照其规定。",
+                26: "《互联网广告管理办法》第八条：禁止以介绍健康、养生知识等形式，变相发布医疗、药品、医疗器械、保健食品、特殊医学用途配方食品广告。介绍健康、养生知识的，不得在同一页面或者同时出现相关经营者地址、联系方式、购物链接等内容。",
+                27: "《互联网广告管理办法》第十七条：利用互联网发布、发送广告，不得影响用户正常使用网络，不得在搜索政务服务网站、网页、互联网应用程序、公众号等的结果中插入竞价排名广告。",
+                28: "《互联网广告管理办法》第十一条：不得以下列方式欺骗、误导用户点击、浏览广告：（一）虚假的系统或者软件更新、报错、清理、通知等提示；（二）虚假的播放、开始、暂停、停止、返回等标志；（三）虚假的奖励承诺；……",
+                29: "《互联网广告管理办法》第十条：以弹出等形式发布互联网广告，广告主、广告发布者应当显著标明关闭标志，确保一键关闭，不得有下列情形：（一）没有关闭标志或者计时结束才能关闭广告；（二）关闭标志虚假、不可清晰辨识或者难以定位等；（三）关闭广告须经两次以上点击；……",
+                30: "《互联网广告管理办法》第九条：除法律、行政法规禁止发布或者变相发布广告的情形外，通过知识介绍、体验分享、消费测评等形式推销商品或者服务，并附加购物链接等购买方式的，广告发布者应当显著标明“广告”。",
+                31: "《互联网广告管理办法》第九条：对于竞价排名的商品或者服务，广告发布者应当显著标明“广告”，与自然搜索结果明显区分。",
+                32: "《互联网广告管理办法》第九条：通过知识介绍、体验分享、消费测评等形式推销商品或者服务，并附加购物链接等购买方式的，广告发布者应当显著标明“广告”。",
+                33: "《互联网广告管理办法》第十三条、第十四条：建立广告档案并定期查验更新，记录、保存广告活动的有关电子数据；相关档案保存时间自广告发布行为终了之日起不少于三年。",
+                34: "《公益广告促进和管理暂行办法》第二条：本办法所称公益广告，是指传播社会主义核心价值观，倡导良好道德风尚，促进公民文明素质和社会文明程度提高，维护国家和社会公共利益的非营利性广告。",
+                35: "《公益广告促进和管理暂行办法》第二条：政务信息、服务信息等各类公共信息以及专题宣传片等不属于本办法所称的公益广告。",
+                36: "《公益广告促进和管理暂行办法》第七条：不得以公益广告名义变相设计、制作、发布商业广告。违反前款规定的，视为商业广告。",
+                37: "《公益广告促进和管理暂行办法》第七条：企业出资设计、制作、发布或者冠名的公益广告，不得标注商品或者服务的名称以及其他与宣传、推销商品或者服务有关的内容，包括单位地址、网址、电话号码、其他联系方式等。",
+                38: "《公益广告促进和管理暂行办法》第七条：平面作品标注企业名称和商标标识的面积不得超过广告面积的1/5；音频、视频作品显示企业名称和商标标识的时间不得超过5秒或者总时长的1/5，使用标版形式标注企业名称和商标标识的时间不得超过3秒或者总时长的1/5。",
+                39: "《农药广告审查发布规定》第三条：未经国家批准登记的农药不得发布广告。",
+                40: "《农药广告审查发布规定》第四条：农药广告内容应当与《农药登记证》和《农药登记公告》的内容相符，不得任意扩大范围。",
+                41: "《农药广告审查发布规定》第五条：农药广告不得含有下列内容：表示功效、安全性的断言或者保证；利用科研单位、学术机构、技术推广机构、行业协会或者专业人士、用户的名义或者形象作推荐、证明；说明有效率；……",
+                42: "《农药广告审查发布规定》第七条：农药广告中不得含有评比、排序、推荐、指定、选用、获奖等综合性评价内容。",
+                43: "《农药广告审查发布规定》第十条：农药广告中不得含有“无效退款”、“保险公司保险”等承诺。",
+                44: "《农药广告审查发布规定》第十一条：农药广告的批准文号应当列为广告内容同时发布。",
+                45: "《兽药广告审查发布规定》第三条：下列兽药不得发布广告：（一）兽用麻醉药品、精神药品以及兽医医疗单位配制的兽药制剂；……",
+                46: "《兽药广告审查发布规定》第三条：所含成分的种类、含量、名称与兽药国家标准不符的兽药不得发布广告。",
+                47: "《兽药广告审查发布规定》第三条：临床应用发现超出规定毒副作用的兽药不得发布广告。",
+                48: "《兽药广告审查发布规定》第四条：兽药广告不得含有下列内容：表示功效、安全性的断言或者保证；利用科研单位、学术机构、技术推广机构、行业协会或者专业人士、用户的名义或者形象作推荐、证明；说明有效率；……",
+                49: "《兽药广告审查发布规定》第六条：兽药广告中不得含有“最高技术”、“最高科学”、“最进步制法”、“包治百病”等绝对化的表示。",
+                50: "《兽药广告审查发布规定》第八条：兽药广告不得含有直接显示疾病症状和病理的画面，也不得含有“无效退款”、“保险公司保险”等承诺。",
+                51: "《兽药广告审查发布规定》第十条：兽药广告的批准文号应当列为广告内容同时发布。",
+                52: "《医疗广告管理办法》第五条：非医疗机构不得发布医疗广告，医疗机构不得以内部科室名义发布医疗广告。",
+                53: "《医疗广告管理办法》第三条、第十七条：未取得《医疗广告审查证明》，不得发布医疗广告。医疗机构应当按照《医疗广告审查证明》核准的广告成品样件内容与媒体类别发布医疗广告。",
+                54: "《医疗广告管理办法》第十六条：禁止利用新闻形式、医疗资讯服务类专题节（栏）目发布或变相发布医疗广告。",
+                55: "《医疗广告管理办法》第七条：医疗广告的表现形式不得含有以下情形：（一）涉及医疗技术、诊疗方法、疾病名称、药物的；……",
+                56: "《医疗广告管理办法》第七条：医疗广告的表现形式不得含有以下情形：保证治愈或者隐含保证治愈的；宣传治愈率、有效率等诊疗效果的；……",
+                57: "《医疗广告管理办法》第七条：医疗广告的表现形式不得含有以下情形：利用患者、卫生技术人员、医学教育科研机构及人员以及其他社会社团、组织的名义、形象作证明的；……",
+                58: "《医疗广告管理办法》第七条：医疗广告的表现形式不得含有以下情形：使用解放军和武警部队名义的。",
+                59: "《医疗广告管理办法》第十四条：发布医疗广告应当标注医疗机构第一名称和《医疗广告审查证明》文号。",
+                60: "《医疗广告管理办法》第六条：医疗广告内容仅限于以下项目：（一）医疗机构第一名称；（二）医疗机构地址；（三）所有制形式；（四）医疗机构类别；（五）诊疗科目；（六）床位数；（七）接诊时间；（八）联系电话。",
+                61: "《广告管理条例》第七条：广告客户申请刊播、设置、张贴的广告，其内容应当在广告客户的经营范围或者国家许可的范围内。",
+                62: "《广告管理条例》第八条：广告有下列内容之一的，不得刊播、设置、张贴：（一）违反我国法律、法规的；（二）损害我国民族尊严的；（三）有中国国旗、国徽、国歌标志、国歌音响的；（四）有反动、淫秽、迷信、荒诞内容的；（五）弄虚作假的；（六）贬低同类产品的。",
+                63: "《广告管理条例》第十条：禁止利用广播、电视、报刊为卷烟做广告。",
+                64: "《广告管理条例》第十三条：在政府机关和文物保护单位周围的建筑控制地带以及当地人民政府禁止设置、张贴广告的区域，不得设置、张贴广告。",
+                65: "《广告管理条例》第九条：新闻单位刊播广告，应当有明确的标志。新闻单位不得以新闻报道形式刊播广告，收取费用；新闻记者不得借采访名义招揽广告。",
+                66: "《广告管理条例》第十一条：标明获奖的商品广告，注明获奖级别和颁奖部门；标明优质产品称号的商品广告，标明授予优质产品称号的时间和部门。",
+                67: "《房地产广告发布规定》第五条：凡在未经依法取得国有土地使用权的土地上开发建设的房地产，不得发布广告。",
+                68: "《房地产广告发布规定》第五条：在未经国家征用的集体所有的土地上建设的房地产，不得发布广告。",
+                69: "《房地产广告发布规定》第五条：司法机关和行政机关依法裁定、决定查封或者以其他形式限制房地产权利的，不得发布广告。",
+                70: "《房地产广告发布规定》第五条：预售房地产，但未取得该项目预售许可证的，不得发布广告。",
+                71: "《房地产广告发布规定》第四条：房地产广告面积应当表明为建筑面积或者套内建筑面积。",
+                72: "《房地产广告发布规定》第四条：不得含有下列内容：（一）升值或者投资回报的承诺；（二）以项目到达某一具体参照物的所需时间表示项目位置；（三）违反国家有关价格管理的规定；（四）对规划或者建设中的交通、商业、文化教育设施以及其他市政条件作误导宣传。",
+                73: "《房地产广告发布规定》第八条：房地产广告不得含有风水、占卜等封建迷信内容，对项目情况进行的说明、渲染，不得有悖社会良好风尚。",
+                74: "《房地产广告发布规定》第九条：房地产广告中涉及所有权或者使用权的，所有或者使用的基本单位应当是有实际意义的完整的生产、生活空间。",
+                75: "《房地产广告发布规定》第十六条、第十八条：不得出现融资或者变相融资的内容。不得含有广告主能够为入住者办理户口、就业、升学等事项的承诺。",
+                76: "《房地产广告发布规定》第七条：房地产预售、销售广告，必须载明以下事项：（一）开发企业名称；（二）中介服务机构代理销售的，载明该机构名称；（三）预售或者销售许可证书号。广告中仅介绍房地产项目名称的，可以不必载明上述事项。",
+                77: "《房地产广告发布规定》第十条：房地产广告中对价格有表示的，应当清楚表示为实际的销售价格，明示价格的有效期限。",
+                78: "《房地产广告发布规定》第十二条：房地产广告中涉及的交通、商业、文化教育设施及其他市政条件等，如在规划或者建设中，应当在广告中注明。",
+                79: "《药品等四类审查管理暂行办法》第二十一条：麻醉药品、精神药品、医疗用毒性药品、放射性药品、药品类易制毒化学品，以及戒毒治疗的药品、医疗器械不得发布广告。",
+                80: "《药品等四类审查管理暂行办法》第二十一条：军队特需药品、军队医疗机构配制的制剂、医疗机构配制的制剂不得发布广告。",
+                81: "《药品等四类审查管理暂行办法》第二十二条：处方药和特殊医学用途配方食品中的特定全营养配方食品广告只能在国务院卫生行政部门和国务院药品监督管理部门共同指定的医学、药学专业刊物上发布。",
+                82: "《药品等四类审查管理暂行办法》第二十二条：不得利用处方药或者特定全营养配方食品的名称为各种活动冠名进行广告宣传。不得使用与处方药名称或者特定全营养配方食品名称相同的商标、企业字号在医学、药学专业刊物以外的媒介变相发布广告，也不得利用该商标、企业字号为各种活动冠名进行广告宣传。",
+                83: "《药品等四类审查管理暂行办法》第二十二条：特殊医学用途婴儿配方食品广告不得在大众传播媒介或者公共场所发布。",
+                84: "《药品等四类审查管理暂行办法》第五条：药品广告的内容应当以国务院药品监督管理部门核准的说明书为准。药品广告涉及药品名称、药品适应症或者功能主治、药理作用等内容的，不得超出说明书范围。",
+                85: "《药品等四类审查管理暂行办法》第六条：医疗器械广告的内容应当以药品监督管理部门批准的注册证书或者备案凭证、注册或者备案的产品说明书内容为准。",
+                86: "《药品等四类审查管理暂行办法》第七条：保健食品广告不得涉及疾病预防、治疗功能。涉及保健功能、产品功效成分或者标志性成分及含量、适宜人群或者食用量等内容的，不得超出注册证书或者备案凭证、注册或者备案的产品说明书范围。",
+                87: "《药品等四类审查管理暂行办法》第八条：特殊医学用途配方食品广告涉及产品名称、配方、营养学特征、适用人群等内容的，不得超出注册证书、产品标签、说明书范围。",
+                88: "《药品等四类审查管理暂行办法》第十一条：不得使用或者变相使用国家机关、国家机关工作人员、军队单位或者军队人员的名义或者形象，或者利用军队装备、设施等从事广告宣传。",
+                89: "《药品等四类审查管理暂行办法》第十一条：不得使用科研单位、学术机构、行业协会或者专家、学者、医师、药师、临床营养师、患者等的名义或者形象作推荐、证明。",
+                90: "《药品等四类审查管理暂行办法》第十一条：不得含有“安全”、“安全无毒副作用”、“毒副作用小”；明示或者暗示成分为“天然”，因而安全性有保证等内容。",
+                91: "《药品等四类审查管理暂行办法》第十一条：不得含有“热销、抢购、试用”、“家庭必备、免费治疗、免费赠送”等诱导性内容。",
+                92: "《药品等四类审查管理暂行办法》第十一条：不得含有“评比、排序、推荐、指定、选用、获奖”等综合性评价内容。",
+                93: "《药品等四类审查管理暂行办法》第十一条：不得含有“无效退款、保险公司保险”等保证性内容。",
+                94: "《药品等四类审查管理暂行办法》第十一条：不得含有医疗机构的名称、地址、联系方式、诊疗项目、诊疗方法以及有关义诊、医疗咨询电话、开设特约门诊等医疗服务的内容。",
+                95: "《药品等四类审查管理暂行办法》第六条：推荐给个人自用的医疗器械的广告，应当显著标明“请仔细阅读产品说明书或者在医务人员的指导下购买和使用”。产品注册证书中有禁忌内容、注意事项的，广告应当显著标明“禁忌内容或者注意事项详见说明书”。",
+                96: "《药品等四类审查管理暂行办法》第八条：特殊医学用途配方食品广告应当显著标明适用人群、“不适用于非目标人群使用”、“请在医生或者临床营养师指导下使用”。"
+            },
+            truefalse: {
+                0: "《广告法》第四十四条：利用互联网从事广告活动，适用本法的各项规定。",
+                1: "《广告法》第十条：大众传播媒介有义务发布公益广告。具体管理规定由有关部门制定（即《公益广告促进和管理暂行办法》），广告法本身并未单设章节进行全部技术性细化。",
+                2: "《广告法》第九条：广告不得使用或者变相使用中华人民共和国的国旗、国歌、国徽，军旗、军歌、军徽。",
+                3: "《广告法》第九条：广告不得使用或者变相使用国家机关、国家机关工作人员的名义或者形象。",
+                4: "《广告法》第十五条：麻醉药品、精神药品、医疗用毒性药品、放射性药品等特殊药品，药品类易制毒化学品，以及戒毒治疗的药品、医疗器械和治疗方法，不得作广告。",
+                5: "《广告法》第十五条：前款规定以外的处方药，只能在国务院卫生行政部门和国务院药品监督管理部门“共同指定”的医学、药学专业刊物上作广告，而非任意专业刊物。",
+                6: "《广告法》第二十条：禁止在大众传播媒介或者公共场所发布声称全部或者部分替代母乳的婴儿乳制品、饮料和其他食品广告。",
+                7: "《互联网广告管理办法》第六条及《广告法》第二十二条：禁止发布烟草（含电子烟）广告。",
+                8: "《广告法》第二十二条：禁止利用其他商品或者服务的广告、公益广告，宣传烟草制品名称、商标、包装、装潢以及类似内容。",
+                9: "《广告法》第四十条：在针对未成年人的大众传播媒介上不得发布化妆品、美容、酒类等广告。",
+                10: "《广告法》第三十九条：不得在中小学校、幼儿园内开展广告活动，但公益广告除外。",
+                11: "《广告法》第三十九条：不得利用校服、校车等发布或者变相发布广告（公益广告除外）。",
+                12: "《广告法》第四十条：针对不满十四周岁的未成年人的商品或者服务的广告，不得劝诱其要求家长购买。",
+                13: "《广告法》第四条、第十一条：任何商品服务广告均应真实、合法，不得违规误导消费者；十四周岁以上仍属于未成年人范畴，须受严格保护。",
+                14: "《广告法》第四十三条：未经当事人同意或者请求，不得向其住宅发送广告。经同意后发送不违反该条规定。",
+                15: "《广告法》第四十六条：发布医疗广告，应当在发布前由有关部门对广告内容进行审查；未经审查，不得发布。",
+                16: "《广告法》第四十六条：发布农药广告应当在发布前由有关部门对广告内容进行审查；未经审查不得发布。",
+                17: "《广告法》第二十八条：使用虚构、伪造或者无法验证的科研成果、统计资料、调查结果、文摘、引用语等信息作证明材料的，属于虚假广告。",
+                18: "《广告法》第九条第（三）项及执法指南：若有客观、真实证明并标明有效依据，“国内领先”并非绝对禁止；但绝对化用语“最高级”“最佳”等属于法定绝对红线。",
+                19: "《广告法》第九条第（三）项：广告不得使用“国家级”、“最高级”、“最佳”等绝对化用语。",
+                20: "《广告法》第九条、第十六条、第二十四条等：广告中不得借行业协会等名义作不当背书、证明。",
+                21: "《广告法》第十一条：引证内容有适用范围和有效期限的，必须明确表示；若有期限而隐瞒不标属于违法。",
+                22: "《广告法》第十二条：广告中涉及专利产品或者专利方法的，应当标明专利号和专利种类。",
+                23: "《广告法》第十六条：医疗、药品、医疗器械广告不得说明治愈率或者有效率。",
+                24: "《广告法》第十六条：医疗器械广告不得与其他药品、医疗器械的功效和安全性进行比较。",
+                25: "《广告法》第十六条第（四）项：医疗、药品、医疗器械广告不得利用广告代言人作推荐、证明（无论处方药还是非处方药）。",
+                26: "《广告法》第十九条及《互联网广告管理办法》第八条：不得以介绍健康、养生知识等形式变相发布药品等广告。",
+                27: "《广告法》第十八条：保健食品广告不得声称或者暗示广告商品为保障健康所必需。",
+                28: "《广告法》第二十一条：农药广告不得利用科研单位、学术机构、技术推广机构、行业协会或者专业人士、用户的名义或者形象作推荐、证明。",
+                29: "《广告法》第二十一条：兽药广告不得说明有效率。",
+                30: "《广告法》第二十三条：酒类广告不得出现饮酒的动作。",
+                31: "《广告法》第二十三条：酒类广告不得明示或者暗示饮酒有消除紧张和焦虑、增加体力等功效。",
+                32: "《广告法》第二十四条：教育、培训广告不得明示或者暗示有相关考试机构或者其工作人员、考试命题人员参与教育、培训。",
+                33: "《广告法》第二十五条：招商等有投资回报预期的商品或者服务广告，不得明示或者暗示保本、无风险或者保收益。",
+                34: "《广告法》第二十六条及《房地产广告发布规定》第四条：房地产广告不得以项目到达某一具体参照物的所需时间表示项目位置。",
+                35: "《广告法》第二十六条及《房地产广告发布规定》第四条：面积应当明确标明为“建筑面积”或者“套内建筑面积”。",
+                36: "《广告法》第二十七条：农作物种子、种畜禽、水产苗种和种养殖广告，不得作经济效益预测或者保证。",
+                37: "《广告法》第三十八条：广告代言人不得为其未使用过的商品或者未接受过的服务作推荐、证明。",
+                38: "《广告法》第三十八条：不得利用不满十周岁的未成年人作为广告代言人。",
+                39: "《广告法》第三十八条：对在虚假广告中作推荐、证明受到行政处罚未满三年的自然人、法人或者其他组织，不得利用其作为广告代言人。",
+                40: "《广告法》第五十六条：违反本法规定，发布虚假广告，欺骗、误导消费者，使购买商品或者接受服务的消费者的合法权益受到损害的，由广告主依法承担民事责任。",
+                41: "《广告法》第五十六条：关系消费者生命健康的商品或者服务的虚假广告，造成消费者损害的，其广告经营者、广告发布者、广告代言人应当与广告主承担连带责任。",
+                42: "《广告法》第十条：大众传播媒介有义务发布公益广告。",
+                43: "《广告法》第十四条：通过广播电台、电视台、报刊等大众传播媒介发布的广告应当显著标明“广告”，与其他非广告信息相区别。",
+                44: "《广告法》第四十四条及《互联网广告管理办法》第十条：利用互联网发布弹出等形式广告，应当显著标明关闭标志，确保一键关闭。"
+            },
+            choice: {
+                0: "《广告法》第二条：广告活动主体涵盖广告主、广告经营者、广告发布者、广告代言人四类主体。",
+                1: "《广告法》第九条：广告不得使用国旗、国歌、国徽；不得使用国家机关名义；不得损害国家尊严；不得含有民族、种族、宗教、性别歧视。",
+                2: "《广告法》第十五条：特殊药品、药品类易制毒化学品、戒毒治疗的药品/器械严禁作广告；普通处方药仅是限媒介（指定刊物），而非绝对禁止发布。",
+                3: "《广告法》第二十二条：禁止在大众传播媒介或者公共场所、公共交通工具、户外发布烟草广告。",
+                4: "《广告法》第四十条：在针对未成年人的大众传播媒介上不得发布医疗、药品、保健食品、医疗器械、化妆品、酒类、美容广告。",
+                5: "《广告法》第三十九条：中小学校、幼儿园内及教材、教辅、练习册、文具、教具、校服、校车等均不得发布商业广告。",
+                6: "《广告法》第二十八条：虚构商品服务、虚构科研成果、虚构使用效果、价格虚假等均属虚假广告典型法定情形。",
+                7: "《广告法》第九条：严禁使用“国家级”、“最高级”、“最佳”等绝对化用语。",
+                8: "《广告法》第十六条：医疗、药品、医疗器械广告不得作功效断言/保证，不得说明治愈率有效率，不得比对安全性，不得利用代言人。",
+                9: "《广告法》第十八条：保健食品严禁涉及疾病预防治疗、严禁暗示健康必需、严禁比对药品、严禁代言人推荐证明。",
+                10: "《广告法》第二十三条：酒类广告严禁诱导饮酒、严禁饮酒动作、严禁驾驶车船飞机、严禁暗示消除紧张。",
+                11: "《广告法》第二十五条：招商投资广告必须提示风险，不得保证未来收益，不得暗示保本无风险或保收益。",
+                12: "《广告法》第二十六条：房地产广告严禁承诺升值回报、严禁时间距离表示区位、严禁违反价格规定、严禁误导市政配套设施。",
+                13: "《广告法》第十六条：药品广告必须显著标明禁忌、不良反应，处方药及非处方药按规定标明专业人士阅读或使用指导提示语。",
+                14: "《广告法》第三十八条：代言人不得推荐未使用过的商品，不得为不满10周岁未成年人，三年内受过假广告处罚者不得代言，且必须以事实为依据。",
+                15: "《互联网广告管理办法》第六条、第七条、第十七条：禁止烟草、处方药互联网广告；未经审查不得发布医疗器械广告；政务搜索结果不得插入竞价排名。",
+                16: "《互联网广告管理办法》第十一条：虚假更新提示、虚假播放键、虚假奖励承诺、虚假报错提示均属欺骗误导点击违规。",
+                17: "《互联网广告管理办法》第十条：弹出广告无关闭标志、计时结束才可关闭、虚假标志、两次以上点击方可关闭均属违法。",
+                18: "《互联网广告管理办法》第九条：竞价排名、知识介绍、体验分享、消费测评附加购物链接的，广告发布者应当显著标明“广告”。",
+                19: "《互联网广告管理办法》第十三条、第十四条、第十五条：档案须记录主体身份、证明文件、广告内容及数据、算法规则与投放记录，保存不少于三年。",
+                20: "《公益广告促进和管理暂行办法》第二条、第六条：政务信息、服务信息、专题宣传片及商业广告中的社会责任内容均不属于本办法所称公益广告。",
+                21: "《公益广告促进和管理暂行办法》第七条：企业出资公益广告严禁标注商品或服务名称、地址、网址、电话等商业宣传信息。",
+                22: "《农药广告审查发布规定》第五条、第六条：农药广告不得作功效/安全断言，不得说明有效率，不得用专业人士推荐，不得违反安全使用规程。",
+                23: "《农药广告审查发布规定》第七条、第十条：农药广告不得含有评比、排序、推荐、指定、选用、获奖，以及无效退款、保险承诺。",
+                24: "《兽药广告审查发布规定》第三条：兽用麻醉/精神药品、内部配制制剂、与国标不符的兽药严禁发布广告。",
+                25: "《兽药广告审查发布规定》第六条：兽药广告严禁“最高技术”、“最高科学”、“最进步制法”、“包治百病”等绝对化表示。",
+                26: "《医疗广告管理办法》第七条：医疗广告表现形式严禁涉及医疗技术、诊疗方法、疾病名称、药物。",
+                27: "《医疗广告管理办法》第七条：严禁利用患者、卫生技术人员、医学科研机构及人员、社会社团/组织作推荐证明。",
+                28: "《医疗广告管理办法》第六条：医疗广告实行项目清单制，严格仅限标示第一名称、地址、所有制形式、类别、诊疗科目、床位、接诊时间、电话。",
+                29: "《房地产广告发布规定》第五条：未取得国有土地使用权、未经征用集体土地、被司法/行政查封、未取得预售许可证的房地产严禁发布广告。",
+                30: "《房地产广告发布规定》第七条、第十条：房地产广告必须载明开发企业名称、许可证号，明确实际销售价格及有效期限。",
+                31: "《房地产广告发布规定》第十八条：严禁承诺为入住者办理户口、就业、升学等事项。",
+                32: "《药品等四类审查管理暂行办法》第二十一条：麻醉药品、精神药品、医疗用毒性药品、放射性药品绝对禁止发布广告。",
+                33: "《药品等四类审查管理暂行办法》第十条：严禁利用科研单位、学术机构、行业协会、专家、学者、医师、药师、临床营养师、患者名义/形象推荐证明。",
+                34: "《药品等四类审查管理暂行办法》第十条：严禁含有“热销、抢购、试用”、“家庭必备”、“免费治疗”、“免费赠送”等诱导性内容。",
+                35: "《药品等四类审查管理暂行办法》第十条：严禁含有“评比、排序、推荐、指定、选用、获奖”等综合性评价内容。",
+                36: "《药品等四类审查管理暂行办法》第十条：严禁含有医疗机构名称、地址、联系方式、诊疗项目/方法、义诊、咨询电话、特约门诊等内容。"
+            }
+        };
 
-        // 应用状态
-        const state = {
-            mode: 'self',
-            currentCategory: 'all',
-            currentIndex: 0,
+        const questionBank = {
+            fillBlanks: [
+                { law: 0, text: "在中华人民共和国境内，商品经营者或者服务提供者通过一定媒介和形式，直接或者间接介绍自己推销的商品或者服务的__活动，适用本法。", blanks: ["商业广告"], answers: [] },
+                { law: 0, text: "广告主体分为四类：__（自行或委托设计、制作、发布）、__（受托设计、制作、代理）、__（为广告主或受托经营者发布）、__（以自己的名义或形象作推荐、证明）。", blanks: ["广告主", "广告经营者", "广告发布者", "广告代言人"], answers: [] },
+                { law: 0, text: "使用或变相使用__、__、__、__、__、__均属于一般禁发内容。", blanks: ["国旗", "国歌", "国徽", "军旗", "军歌", "军徽"], answers: [] },
+                { law: 0, text: "特殊药品、药品类易制毒化学品、戒毒治疗的药品/医疗器械/治疗方法__作广告；其他处方药只能在__发布。", blanks: ["不得", "指定医学、药学专业刊物"], answers: [] },
+                { law: 0, text: "不得在大众传播媒介或公共场所发布声称全部或部分__的婴儿乳制品、饮料及其他食品广告。", blanks: ["替代母乳"], answers: [] },
+                { law: 0, text: "烟草广告不得在__、__、__、__发布；不得向__发送任何形式的烟草广告。", blanks: ["大众传播媒介", "公共场所", "公共交通工具", "户外", "未成年人"], answers: [] },
+                { law: 0, text: "针对未成年人的大众传播媒介不得发布__、__、__、__、__、__、__广告及不利于未成年人身心健康的网络游戏广告。", blanks: ["医疗", "药品", "保健食品", "医疗器械", "化妆品", "酒类", "美容"], answers: [] },
+                { law: 0, text: "不得在__、__内开展广告活动，不得利用__、__、__、__、__、__等发布或变相发布广告（公益广告除外）。", blanks: ["中小学校", "幼儿园", "教材", "教辅", "练习册", "文具", "教具", "校服", "校车"], answers: [] },
+                { law: 0, text: "针对不满__周岁未成年人的商品或服务广告，不得劝诱其要求家长购买，也不得包含可能引发其模仿不安全行为的内容。", blanks: ["十四"], answers: [] },
+                { law: 0, text: "未经当事人同意或请求，不得向住宅、交通工具等发送广告，也不得以__方式发送广告。", blanks: ["电子信息"], answers: [] },
+                { law: 0, text: "医疗、药品、医疗器械、农药、兽药、保健食品及法律、行政法规规定须审查的其他广告，发布前必须__；未经审查__发布。", blanks: ["审查", "不得"], answers: [] },
+                { law: 0, text: "虚假广告包括：商品/服务__；性能、功能、产地、用途、质量等与实际__且影响购买；使用虚构、伪造或__的科研成果等。", blanks: ["不存在", "不符", "无法验证"], answers: [] },
+                { law: 0, text: "不得使用\"__\"\"__\"\"__\"等用语；不得借__、__、__或__作不当背书。", blanks: ["国家级", "最高级", "最佳", "国家机关", "国家机关工作人员", "科研/学术/行业组织", "专业人士"], answers: [] },
+                { law: 0, text: "涉及许可的事项必须与__一致；数据、统计资料、调查结果必须__并__，有适用范围或有效期限的必须__。", blanks: ["许可内容", "真实、准确", "标明出处", "明确"], answers: [] },
+                { law: 0, text: "医疗、药品、医疗器械广告不得作__或__，不得说明__、__，不得__，不得使用__推荐证明。", blanks: ["功效/安全性断言", "保证", "治愈率", "有效率", "比较功效和安全性", "广告代言人"], answers: [] },
+                { law: 0, text: "保健食品广告不得作__，不得涉及__、__，不得暗示产品是__所必需，不得使用__推荐证明。", blanks: ["功效/安全性断言或保证", "疾病预防", "治疗", "保障健康", "代言人"], answers: [] },
+                { law: 0, text: "酒类广告不得诱导、怂恿饮酒或宣传__饮酒；不得出现__；不得表现驾驶__。", blanks: ["无节制", "饮酒动作", "车、船、飞机"], answers: [] },
+                { law: 0, text: "教育培训广告不得对__、__、__或__作明示/暗示保证。", blanks: ["升学", "考试", "学位学历", "培训效果"], answers: [] },
+                { law: 0, text: "招商等广告必须__和__；不得保证__、__，不得明示/暗示__、__、__。", blanks: ["提示风险", "责任承担", "未来效果", "收益", "保本", "无风险", "保收益"], answers: [] },
+                { law: 0, text: "房地产广告房源信息要真实，面积须写__或__；不得承诺__/__，不得用__表示位置。", blanks: ["建筑面积", "套内建筑面积", "升值", "投资回报", "到达某参照物的时间"], answers: [] },
+                { law: 0, text: "药品广告显著标明__、__；处方药标明\"__\"；非处方药标明\"__\"。", blanks: ["禁忌", "不良反应", "本广告仅供医学药学专业人士阅读", "请按药品说明书或者在药师指导下购买和使用"], answers: [] },
+                { law: 0, text: "保健食品广告显著标明\"__\"，并标明__、__和__。", blanks: ["保健食品不是药物，不能代替药物治疗疾病", "保健食品标志", "适宜人群", "不适宜人群"], answers: [] },
+                { law: 0, text: "代言人推荐须以__为依据；不得为__的商品或__的服务作推荐；不得使用不满__周岁的未成年人作代言人。", blanks: ["事实", "未使用过", "未接受过", "十"], answers: [] },
+                { law: 1, text: "利用网站、网页、__等互联网媒介，以文字、图片、音频、视频或其他形式，直接或间接推销商品/服务的商业广告活动，适用《广告法》和本办法。", blanks: ["互联网应用程序"], answers: [] },
+                { law: 1, text: "直播销售构成商业广告时：__承担广告主责任；__或__受托时承担相应经营者/发布者责任；以本人名义或形象推荐证明并构成代言时承担__责任。", blanks: ["商品/服务销售者", "直播间运营者", "直播营销人员", "代言人"], answers: [] },
+                { law: 1, text: "禁止利用互联网发布__（含__）广告；禁止利用互联网发布__广告。", blanks: ["烟草", "电子烟", "处方药"], answers: [] },
+                { law: 1, text: "禁止以介绍__、__知识等形式变相发布医疗、药品、医疗器械、保健食品广告；健康知识页面不得同时出现相关经营者__、__、__等导流信息。", blanks: ["健康", "养生", "地址", "联系方式", "购物链接"], answers: [] },
+                { law: 1, text: "不得在搜索__、__、__、__等的结果中插入__广告。", blanks: ["政务服务网站", "网页", "应用程序", "公众号", "竞价排名"], answers: [] },
+                { law: 1, text: "不得以虚假的__/__/__、__，虚假的__/__/__/__/__标志，虚假的__等方式欺骗、误导用户点击或浏览。", blanks: ["系统", "软件更新", "报错", "清理", "通知提示", "播放", "开始", "暂停", "停止", "返回", "奖励承诺"], answers: [] },
+                { law: 1, text: "弹出广告不得__、__才能关闭、设置__/__/__关闭标志、要求__以上点击关闭。", blanks: ["没有关闭标志", "计时结束", "虚假", "难辨", "难定位", "两次"], answers: [] },
+                { law: 1, text: "__、__、__、__等带有推销性质的内容，不得伪装成自然结果、普通分享或知识内容。", blanks: ["竞价排名", "知识介绍", "体验分享", "消费测评"], answers: [] },
+                { law: 1, text: "竞价排名的商品或服务：显著标明\"__\"，与__明显区分。", blanks: ["广告", "自然搜索结果"], answers: [] },
+                { law: 1, text: "通过知识介绍、体验分享、消费测评等形式推销商品/服务并附__等购买方式：显著标明\"__\"。", blanks: ["购物链接", "广告"], answers: [] },
+                { law: 1, text: "互联网广告档案：广告主、经营者、发布者应记录__、__、__及电子数据，档案自发布行为终了之日起保存不少于__年。", blanks: ["主体身份", "证明文件", "广告内容", "三"], answers: [] },
+                { law: 2, text: "公益广告是传播__、倡导__、促进__和__提高、维护__和__的非营利性广告。", blanks: ["社会主义核心价值观", "良好道德风尚", "公民文明素质", "社会文明程度", "国家", "社会公共利益"], answers: [] },
+                { law: 2, text: "__、__等公共信息，以及__，不属于本办法所称公益广告。", blanks: ["政务信息", "服务信息", "专题宣传片"], answers: [] },
+                { law: 2, text: "不得以__名义变相设计、制作、发布商业广告；违反__限制的，按商业广告处理。", blanks: ["公益广告", "企业冠名"], answers: [] },
+                { law: 2, text: "企业出资公益广告不得标注__或__名称，也不得标注单位__、__、__或其他联系方式等推销信息。", blanks: ["商品", "服务", "地址", "网址", "电话号码"], answers: [] },
+                { law: 2, text: "企业出资、设计、制作、发布或冠名的公益广告，可以标注企业名称和商标标识，但必须严格控制：平面标识面积不超过广告面积的__;音频、视频显示企业名称/商标不超过__或总时长的__;标版形式不超过__或总时长的__。", blanks: ["1/5", "5秒", "1/5", "3秒", "1/5"], answers: [] },
+                { law: 3, text: "只有依法获得__的农药，才进入可发布广告的范围。", blanks: ["国家批准登记"], answers: [] },
+                { law: 3, text: "广告内容与《__》《__》不一致，或任意扩大登记范围的，不得发布。", blanks: ["农药登记证", "农药登记公告"], answers: [] },
+                { law: 3, text: "农药广告不得作__或__、__；不得以__、__、__、__、__或__名义/形象推荐、证明。", blanks: ["功效", "安全性断言", "保证", "说明有效率", "科研单位", "学术机构", "技术推广机构", "行业协会", "专业人士", "用户"], answers: [] },
+                { law: 3, text: "农药广告不得使用__、__、__、__、__、__等综合性评价内容。", blanks: ["评比", "排序", "推荐", "指定", "选用", "获奖"], answers: [] },
+                { law: 3, text: "农药广告不得含有\"__\"\"__\"等承诺。", blanks: ["无效退款", "保险公司保险"], answers: [] },
+                { law: 3, text: "农药广告__必须作为广告内容同时发布。", blanks: ["批准文号"], answers: [] },
+                { law: 4, text: "__、__、__配制的兽药制剂不得发布广告。", blanks: ["兽用麻醉药品", "精神药品", "兽医医疗单位"], answers: [] },
+                { law: 4, text: "所含成分种类、含量、名称与__不符的兽药不得发布。", blanks: ["兽药国家标准"], answers: [] },
+                { law: 4, text: "临床应用发现超出规定__的兽药不得发布。", blanks: ["毒副作用"], answers: [] },
+                { law: 4, text: "兽药广告不得作__或__、__；不得以__、__、__、__、__或__名义/形象推荐、证明。", blanks: ["功效", "安全性断言", "保证", "说明有效率", "科研", "学术", "技术推广机构", "行业协会", "专业人士", "用户"], answers: [] },
+                { law: 4, text: "兽药广告不得使用\"__\"\"__\"\"__\"\"__\"等绝对化表示。", blanks: ["最高技术", "最高科学", "最进步制法", "包治百病"], answers: [] },
+                { law: 4, text: "兽药广告不得直接显示__和__。", blanks: ["疾病症状", "病理画面"], answers: [] },
+                { law: 4, text: "兽药广告__必须列为广告内容同时发布。", blanks: ["批准文号"], answers: [] },
+                { law: 5, text: "__不得发布医疗广告；医疗机构不得以__名义发布医疗广告。", blanks: ["非医疗机构", "内部科室"], answers: [] },
+                { law: 5, text: "未取得《__》不得发布医疗广告；广告必须按__和__发布。", blanks: ["医疗广告审查证明", "审查证明核准的成品样件", "媒体类别"], answers: [] },
+                { law: 5, text: "不得利用__、__类专题节目/栏目发布或变相发布医疗广告。", blanks: ["新闻形式", "医疗资讯服务"], answers: [] },
+                { law: 5, text: "医疗广告表现形式不得涉及__、__、__、__。", blanks: ["医疗技术", "诊疗方法", "疾病名称", "药物"], answers: [] },
+                { law: 5, text: "医疗广告不得保证或隐含保证__，不得宣传__、__等诊疗效果。", blanks: ["治愈", "治愈率", "有效率"], answers: [] },
+                { law: 5, text: "医疗广告不得利用__、__、__及人员、__或__的名义/形象作证明。", blanks: ["患者", "卫生技术人员", "医学教育科研机构", "社会团体", "组织"], answers: [] },
+                { law: 5, text: "医疗广告不得使用__和__名义。", blanks: ["解放军", "武警部队"], answers: [] },
+                { law: 5, text: "发布医疗广告必须标注医疗机构__和《__》文号。", blanks: ["第一名称", "医疗广告审查证明"], answers: [] },
+                { law: 5, text: "医疗广告内容仅限标示：医疗机构__、__、__、__、__、__、__、__。", blanks: ["第一名称", "地址", "所有制形式", "医疗机构类别", "诊疗科目", "床位数", "接诊时间", "联系电话"], answers: [] },
+                { law: 6, text: "广告客户申请刊播、设置、张贴广告，内容应当在其__或__范围内。", blanks: ["经营范围", "国家许可"], answers: [] },
+                { law: 6, text: "违反我国法律、法规；损害我国__；含__、__、__标志或__音响；含__、__、__、__内容的广告，不得刊播、设置、张贴。", blanks: ["民族尊严", "中国国旗", "国徽", "国歌", "国歌", "反动", "淫秽", "迷信", "荒诞"], answers: [] },
+                { law: 6, text: "不得利用__、__、__为卷烟做广告。", blanks: ["广播", "电视", "报刊"], answers: [] },
+                { law: 6, text: "在__和__周围的建筑控制地带，以及地方政府__区域，不得设置、张贴户外广告。", blanks: ["政府机关", "文物保护单位", "禁止设置、张贴广告的"], answers: [] },
+                { law: 6, text: "新闻单位刊播广告必须有__，不得以__形式刊播广告并收取费用；__不得借采访名义招揽广告。", blanks: ["明确标志", "新闻报道", "新闻记者"], answers: [] },
+                { law: 6, text: "获奖商品：标明__和__；优质产品称号：标明__和__。", blanks: ["获奖级别", "颁奖部门", "称号授予时间", "部门"], answers: [] },
+                { law: 7, text: "未依法取得__的土地上开发建设的房地产，不得发布广告。", blanks: ["国有土地使用权"], answers: [] },
+                { law: 7, text: "未经__的集体所有土地上建设的房地产，不得发布广告。", blanks: ["国家征用"], answers: [] },
+                { law: 7, text: "被__或__查封，或以其他形式__的，不得发布广告。", blanks: ["司法机关", "行政机关", "限制房地产权利"], answers: [] },
+                { law: 7, text: "预售房地产未取得__的，不得发布广告。", blanks: ["项目预售许可证"], answers: [] },
+                { law: 7, text: "房地产广告面积必须明确为__或__。", blanks: ["建筑面积", "套内建筑面积"], answers: [] },
+                { law: 7, text: "房地产广告不得承诺__或__；不得以__所需时间表示项目位置；不得违反__；不得误导宣传__/__中的交通、商业、文化教育设施及其他市政条件。", blanks: ["升值", "投资回报", "到达某具体参照物", "价格管理规定", "规划", "建设"], answers: [] },
+                { law: 7, text: "房地产广告不得含__、__等封建迷信内容。", blanks: ["风水", "占卜"], answers: [] },
+                { law: 7, text: "房地产广告涉及所有权或使用权时，基本单位必须是有实际意义的__、__空间。", blanks: ["完整生产", "生活"], answers: [] },
+                { law: 7, text: "房地产广告不得出现__或变相__内容；不得承诺为入住者办理__、__、__。", blanks: ["融资", "融资", "户口", "就业", "升学"], answers: [] },
+                { law: 7, text: "预售、销售广告必须载明__、__及__；仅介绍__的，可不载明上述三项。", blanks: ["开发企业名称", "中介机构名称", "预售或销售许可证书号", "房地产项目名称"], answers: [] },
+                { law: 7, text: "房地产广告对价格有表示：必须写明__及__。", blanks: ["实际销售价格", "价格有效期限"], answers: [] },
+                { law: 7, text: "__/__中的交通、商业、文化教育设施及其他市政条件：在广告中注明\"__\"等真实状态。", blanks: ["规划", "建设", "规划/建设中"], answers: [] },
+                { law: 8, text: "__、__、__、__及戒毒治疗的药品、医疗器械，不得发布广告。", blanks: ["麻醉药品", "精神药品", "医疗用毒性药品", "放射性药品", "药品类易制毒化学品"], answers: [] },
+                { law: 8, text: "__、__配制的制剂、__配制的制剂，不得发布广告。", blanks: ["军队特需药品", "军队医疗机构", "医疗机构"], answers: [] },
+                { law: 8, text: "处方药和特殊医学用途配方食品中的__，只能在__发布。", blanks: ["特定全营养配方食品", "指定医学、药学专业刊物"], answers: [] },
+                { law: 8, text: "不得以__或__名称为活动冠名；不得以相同__、__在专业刊物以外的媒介变相发布广告或为活动冠名。", blanks: ["处方药", "特定全营养配方食品", "商标", "企业字号"], answers: [] },
+                { law: 8, text: "特殊医学用途__广告不得在大众传播媒介或公共场所发布。", blanks: ["婴儿配方食品"], answers: [] },
+                { law: 8, text: "药品广告内容以__为准；药品名称、__/__、__不得超出说明书。", blanks: ["核准说明书", "适应症", "功能主治", "药理作用"], answers: [] },
+                { law: 8, text: "医疗器械广告内容以__/__及__/__说明书为准。", blanks: ["注册证书", "备案凭证", "注册", "备案"], answers: [] },
+                { law: 8, text: "保健食品广告不得涉及__、__；保健功能、__及含量、__、__不得超出注册证书/备案凭证和说明书。", blanks: ["疾病预防", "治疗", "功效/标志性成分", "适宜人群", "食用量"], answers: [] },
+                { law: 8, text: "特殊医学用途配方食品广告：产品名称、配方、__、__不得超出注册证书、产品标签和说明书。", blanks: ["营养学特征", "适用人群"], answers: [] },
+                { law: 8, text: "四类广告不得使用__、__、__名义或形象，或利用__宣传。", blanks: ["国家机关", "工作人员", "军队单位/人员", "军队装备设施"], answers: [] },
+                { law: 8, text: "四类广告不得以__、__、__、__、__、__、__、__名义/形象推荐证明。", blanks: ["科研单位", "学术机构", "行业协会", "专家", "学者", "医师", "药师", "临床营养师", "患者"], answers: [] },
+                { law: 8, text: "四类广告不得使用\"__\"\"__\"\"__\"等表述，不得以\"__\"暗示安全有保障。", blanks: ["安全", "安全无毒副作用", "毒副作用小", "天然"], answers: [] },
+                { law: 8, text: "四类广告不得含\"__、__、__\"\"__、__、__\"等诱导性内容。", blanks: ["热销", "抢购", "试用", "家庭必备", "免费治疗", "免费赠送"], answers: [] },
+                { law: 8, text: "四类广告不得含\"__、__、__、__、__、__\"等综合性评价。", blanks: ["评比", "排序", "推荐", "指定", "选用", "获奖"], answers: [] },
+                { law: 8, text: "四类广告不得含\"__、__\"等保证性内容。", blanks: ["无效退款", "保险公司保险"], answers: [] },
+                { law: 8, text: "四类广告不得出现医疗机构名称、地址、联系方式、__、__、__、__等医疗服务内容。", blanks: ["诊疗项目", "诊疗方法", "义诊", "医疗咨询电话", "特约门诊"], answers: [] },
+                { law: 8, text: "个人自用医疗器械：显著标明\"__\"；注册证书有禁忌/注意事项的，标明\"__\"。", blanks: ["请仔细阅读产品说明书或者在医务人员的指导下购买和使用", "禁忌内容或者注意事项详见说明书"], answers: [] },
+                { law: 8, text: "特殊医学用途配方食品：显著标明适用人群、\"__\"\"__\"。", blanks: ["不适用于非目标人群使用", "请在医生或者临床营养师指导下使用"], answers: [] }
+            ],
+
+            trueFalse: [
+                { law: 0, question: "互联网广告适用《广告法》的规定。", answer: true, answered: null },
+                { law: 0, question: "公益广告在《广告法》中有专门章节进行详细规定。", answer: false, answered: null },
+                { law: 0, question: "使用变相使用国旗、国歌、国徽是被允许的。", answer: false, answered: null },
+                { law: 0, question: "使用国家机关工作人员形象做广告是被严格禁止的。", answer: true, answered: null },
+                { law: 0, question: "特殊药品、药品类易制毒化学品可以在特定媒介发布广告。", answer: false, answered: null },
+                { law: 0, question: "处方药可以在所有医学、药学专业刊物发布广告。", answer: false, answered: null },
+                { law: 0, question: "母乳替代品广告可以在专业刊物上发布。", answer: false, answered: null },
+                { law: 0, question: "电子烟广告属于烟草广告范畴，受到同样限制。", answer: true, answered: null },
+                { law: 0, question: "可以通过其他商品广告宣传烟草制品商标。", answer: false, answered: null },
+                { law: 0, question: "针对未成年人的媒介可以发布化妆品广告。", answer: false, answered: null },
+                { law: 0, question: "在中小学校内可以发布公益广告。", answer: true, answered: null },
+                { law: 0, question: "可以利用校服发布商业广告。", answer: false, answered: null },
+                { law: 0, question: "针对12周岁未成年人的广告可以劝诱其要求家长购买。", answer: false, answered: null },
+                { law: 0, question: "针对14周岁以上未成年人的广告可以适当劝诱购买。", answer: false, answered: null },
+                { law: 0, question: "经用户同意后，可以向其住宅发送广告。", answer: true, answered: null },
+                { law: 0, question: "医疗广告发布前不需要审查。", answer: false, answered: null },
+                { law: 0, question: "农药广告必须在发布前经过审查。", answer: true, answered: null },
+                { law: 0, question: "虚构的科研成果只要标明出处就可以使用。", answer: false, answered: null },
+                { law: 0, question: "\"国内领先\"\"行业领先\"等用语是绝对禁用的绝对化词汇。", answer: false, answered: null },
+                { law: 0, question: "\"最佳\"\"最高级\"属于绝对化用语，不得使用。", answer: true, answered: null },
+                { law: 0, question: "可以使用行业协会作为广告背书。", answer: false, answered: null },
+                { law: 0, question: "引用统计数据时，如果没有有效期限就不需要标注。", answer: false, answered: null },
+                { law: 0, question: "使用专利产品做广告时，必须标明专利号和专利种类。", answer: true, answered: null },
+                { law: 0, question: "药品广告可以说明治愈率。", answer: false, answered: null },
+                { law: 0, question: "医疗器械广告可以比较功效。", answer: false, answered: null },
+                { law: 0, question: "非处方药广告可以使用代言人。", answer: false, answered: null },
+                { law: 0, question: "健康知识讲座中可以顺带介绍药品。", answer: false, answered: null },
+                { law: 0, question: "保健食品广告可以暗示产品是保障健康所必需的。", answer: false, answered: null },
+                { law: 0, question: "农药广告可以使用用户形象作推荐。", answer: false, answered: null },
+                { law: 0, question: "兽药广告可以说明有效率。", answer: false, answered: null },
+                { law: 0, question: "酒类广告中可以出现饮酒动作。", answer: false, answered: null },
+                { law: 0, question: "酒类广告可以暗示饮酒能消除紧张。", answer: false, answered: null },
+                { law: 0, question: "教育培训广告可以暗示与考试机构有关联。", answer: false, answered: null },
+                { law: 0, question: "招商广告可以保证投资收益。", answer: false, answered: null },
+                { law: 0, question: "房地产广告可以用\"地铁口5分钟\"表示位置。", answer: false, answered: null },
+                { law: 0, question: "房地产广告面积只写\"100平米\"即可。", answer: false, answered: null },
+                { law: 0, question: "种子广告可以作经济效益保证。", answer: false, answered: null },
+                { law: 0, question: "代言人可以为未使用过的商品作推荐。", answer: false, answered: null },
+                { law: 0, question: "8周岁儿童可以作为广告代言人。", answer: false, answered: null },
+                { law: 0, question: "因虚假广告受处罚2年后可以继续作代言。", answer: false, answered: null },
+                { law: 0, question: "虚假广告造成损害，广告主承担首要责任。", answer: true, answered: null },
+                { law: 0, question: "涉及消费者生命健康的商品，代言人与广告主承担连带责任。", answer: true, answered: null },
+                { law: 0, question: "大众传播媒介有义务发布公益广告。", answer: true, answered: null },
+                { law: 0, question: "广播电台发布的广告不需要标明\"广告\"字样。", answer: false, answered: null },
+                { law: 0, question: "互联网弹出广告必须显著标明关闭标志。", answer: true, answered: null }
+            ],
+
+            multipleChoice: [
+                { law: 0, question: "以下哪些属于《广告法》所调整的商业广告活动主体？", options: ["广告主", "广告经营者", "广告发布者", "广告代言人"], correct: [0, 1, 2, 3], selected: [] },
+                { law: 0, question: "以下哪些内容属于《广告法》第九条规定的一般禁发内容？", options: ["使用国旗、国歌、国徽", "使用国家机关名义", "损害国家尊严", "含民族歧视"], correct: [0, 1, 2, 3], selected: [] },
+                { law: 0, question: "以下哪些商品或服务的广告绝对禁止发布（不得作广告）？", options: ["特殊药品", "药品类易制毒化学品", "戒毒治疗的药品", "普通处方药"], correct: [0, 1, 2], selected: [] },
+                { law: 0, question: "烟草广告禁止在哪些媒介或场所发布？", options: ["大众传播媒介", "公共场所", "公共交通工具", "户外"], correct: [0, 1, 2, 3], selected: [] },
+                { law: 0, question: "针对未成年人媒介不得发布哪些广告？", options: ["医疗、药品广告", "保健食品广告", "化妆品、酒类广告", "美容广告"], correct: [0, 1, 2, 3], selected: [] },
+                { law: 0, question: "以下哪些场所或物品不得发布或变相发布广告（公益广告除外）？", options: ["中小学校、幼儿园", "教材、教辅、练习册", "文具、教具", "校服、校车"], correct: [0, 1, 2, 3], selected: [] },
+                { law: 0, question: "以下哪些属于虚假广告的法定表现情形？", options: ["商品或服务不存在", "使用虚构的科研成果", "虚构使用效果", "价格与实际不符"], correct: [0, 1, 2, 3], selected: [] },
+                { law: 0, question: "以下哪些用语属于禁用的绝对化用语？", options: ["国家级", "最高级", "最佳", "行业领先"], correct: [0, 1, 2], selected: [] },
+                { law: 0, question: "医疗、药品、医疗器械广告的文案红线包括？", options: ["不得作功效断言或保证", "不得说明治愈率、有效率", "不得比较功效和安全性", "不得使用代言人"], correct: [0, 1, 2, 3], selected: [] },
+                { law: 0, question: "保健食品广告的禁止性规定包括？", options: ["不得涉及疾病预防、治疗", "不得暗示产品是保障健康所必需", "不得与药品或其他保健食品比较", "不得使用代言人"], correct: [0, 1, 2, 3], selected: [] },
+                { law: 0, question: "酒类广告的禁止性规定包括？", options: ["不得诱导怂恿饮酒", "不得出现饮酒动作", "不得表现驾驶车、船、飞机", "不得暗示饮酒能消除紧张"], correct: [0, 1, 2, 3], selected: [] },
+                { law: 0, question: "招商等有投资回报预期的广告的要求包括？", options: ["必须提示风险和责任承担", "不得保证未来效果、收益", "不得明示或暗示保本、无风险", "不得明示或暗示保收益"], correct: [0, 1, 2, 3], selected: [] },
+                { law: 0, question: "房地产广告的禁止性规定包括？", options: ["不得承诺升值或投资回报", "不得用到达某参照物的时间表示位置", "不得违反价格管理规定", "不得误导宣传规划或建设中的设施"], correct: [0, 1, 2, 3], selected: [] },
+                { law: 0, question: "药品广告必须显著标明哪些法定内容？", options: ["禁忌", "不良反应", "广告批准文号", "使用指导（如处方药/非处方药专属提示）"], correct: [0, 1, 2, 3], selected: [] },
+                { law: 0, question: "广告代言人的法定限制规定包括？", options: ["不得为未使用过的商品作推荐", "不得使用不满十周岁未成年人", "受处罚未满三年不得再次代言", "必须以事实为依据"], correct: [0, 1, 2, 3], selected: [] },
+                { law: 1, question: "互联网广告的禁止发布情形包括？", options: ["烟草（含电子烟）广告", "处方药广告", "未经审查的医疗器械广告", "政务服务网站搜索结果中的竞价排名广告"], correct: [0, 1, 2, 3], selected: [] },
+                { law: 1, question: "以下哪些行为属于互联网广告的欺骗误导点击行为？", options: ["虚假的系统更新提示", "虚假的播放/暂停标志", "虚假的奖励承诺", "虚假的报错清理提示"], correct: [0, 1, 2, 3], selected: [] },
+                { law: 1, question: "弹出等形式互联网广告的违规情形包括？", options: ["没有关闭标志", "计时结束才能关闭", "设置虚假关闭标志", "要求两次以上点击关闭"], correct: [0, 1, 2, 3], selected: [] },
+                { law: 1, question: "以下哪些内容带推销性质并附带购买方式时必须显著标明\"广告\"？", options: ["竞价排名", "知识介绍", "体验分享", "消费测评"], correct: [0, 1, 2, 3], selected: [] },
+                { law: 1, question: "互联网广告档案应记录哪些内容？", options: ["主体身份", "证明文件", "广告内容及电子数据", "算法推荐规则和投放记录"], correct: [0, 1, 2, 3], selected: [] },
+                { law: 2, question: "以下哪些不属于《公益广告促进和管理暂行办法》所称的公益广告？", options: ["政务信息", "服务信息", "专题宣传片", "商业广告中的社会责任内容"], correct: [0, 1, 2, 3], selected: [] },
+                { law: 2, question: "企业出资公益广告不得标注哪些商业内容？", options: ["商品或服务名称", "单位地址", "网址", "电话号码"], correct: [0, 1, 2, 3], selected: [] },
+                { law: 3, question: "农药广告的禁止性规定包括？", options: ["不得作功效或安全性断言", "不得说明有效率", "不得使用专业人士推荐", "不得违反安全使用规程"], correct: [0, 1, 2, 3], selected: [] },
+                { law: 3, question: "农药广告中绝对禁止包含的内容有？", options: ["评比、排序", "推荐、指定", "无效退款承诺", "保险公司保险承诺"], correct: [0, 1, 2, 3], selected: [] },
+                { law: 4, question: "以下哪些兽药不得发布广告？", options: ["兽用麻醉药品", "兽用精神药品", "兽医医疗单位配制的兽药制剂", "成分与国家标准不符的兽药"], correct: [0, 1, 2, 3], selected: [] },
+                { law: 4, question: "兽药广告的绝对化禁用表述包括？", options: ["最高技术", "最高科学", "最进步制法", "包治百病"], correct: [0, 1, 2, 3], selected: [] },
+                { law: 5, question: "医疗广告表现形式不得涉及哪些内容？", options: ["医疗技术", "诊疗方法", "疾病名称", "药物"], correct: [0, 1, 2, 3], selected: [] },
+                { law: 5, question: "医疗广告不得利用哪些名义或形象作证明？", options: ["患者", "卫生技术人员", "医学教育科研机构及人员", "社会团体或组织"], correct: [0, 1, 2, 3], selected: [] },
+                { law: 5, question: "医疗广告内容仅限标示的法定信息包括？", options: ["医疗机构第一名称和地址", "所有制形式和医疗机构类别", "诊疗科目和床位数", "接诊时间和联系电话"], correct: [0, 1, 2, 3], selected: [] },
+                { law: 7, question: "以下哪些房地产不得发布广告？", options: ["未依法取得国有土地使用权的", "未经国家征用的集体土地上的", "被查封或限制权利的", "未取得预售许可证的"], correct: [0, 1, 2, 3], selected: [] },
+                { law: 7, question: "房地产预售、销售广告必须明确载明哪些内容？", options: ["开发企业名称", "预售或销售许可证书号", "实际销售价格", "价格有效期限"], correct: [0, 1, 2, 3], selected: [] },
+                { law: 7, question: "房地产广告不得承诺为入住者办理哪些事项？", options: ["户口", "就业", "升学", "商业银行按揭贷款"], correct: [0, 1, 2], selected: [] },
+                { law: 8, question: "以下哪些药品依法绝对不得发布广告？", options: ["麻醉药品", "精神药品", "医疗用毒性药品", "放射性药品"], correct: [0, 1, 2, 3], selected: [] },
+                { law: 8, question: "药品、医疗器械、保健食品广告不得以哪些名义或形象推荐证明？", options: ["科研单位、学术机构", "行业协会、专家学者", "医师、药师、临床营养师", "患者"], correct: [0, 1, 2, 3], selected: [] },
+                { law: 8, question: "四类广告不得含有哪些诱导性内容？", options: ["热销、抢购、试用", "家庭必备", "免费治疗", "免费赠送"], correct: [0, 1, 2, 3], selected: [] },
+                { law: 8, question: "四类广告不得含有下列哪些综合性评价内容？", options: ["评比、排序", "推荐、指定", "选用、获奖", "以上均不得含有"], correct: [0, 1, 2, 3], selected: [] },
+                { law: 8, question: "四类广告中严禁出现的医疗服务内容包括？", options: ["医疗机构名称与联系方式", "诊疗项目、诊疗方法", "义诊、医疗咨询电话", "特约门诊"], correct: [0, 1, 2, 3], selected: [] }
+            ]
+        };
+
+        window.app = {
             currentQuestions: [],
-            records: {},
-            showingStudy: false
-        };
+            currentIndex: 0,
 
-        // 初始化
-        function init() {
-            loadData();
-            renderCategories();
-            updateProgress();
-            setupModeToggle();
-        }
+            init() {
+                this.loadProgress();
+            },
 
-        // 加载数据
-        function loadData() {
-            const saved = localStorage.getItem('adLawProData');
-            if (saved) {
-                Object.assign(state, JSON.parse(saved));
-            }
-            // 确保每个题目都有记录
-            QUESTIONS.forEach((q, i) => {
-                if (!state.records[i]) {
-                    state.records[i] = { correct: 0, wrong: 0, lastTime: 0 };
+            startQuiz(type, lawIndex) {
+                let questions = [];
+
+                if (lawIndex === 'all') {
+                    questions = [
+                        ...questionBank.fillBlanks.map((q, idx) => ({...q, type: 'fillBlank', originalIndex: idx})),
+                        ...questionBank.trueFalse.map((q, idx) => ({...q, type: 'trueFalse', originalIndex: idx})),
+                        ...questionBank.multipleChoice.map((q, idx) => ({...q, type: 'multipleChoice', originalIndex: idx}))
+                    ];
+                } else {
+                    const fb = questionBank.fillBlanks.map((q, idx) => ({...q, originalIndex: idx})).filter(q => q.law === lawIndex);
+                    const tf = questionBank.trueFalse.map((q, idx) => ({...q, originalIndex: idx})).filter(q => q.law === lawIndex);
+                    const mc = questionBank.multipleChoice.map((q, idx) => ({...q, originalIndex: idx})).filter(q => q.law === lawIndex);
+
+                    questions = [
+                        ...fb.map(q => ({...q, type: 'fillBlank'})),
+                        ...tf.map(q => ({...q, type: 'trueFalse'})),
+                        ...mc.map(q => ({...q, type: 'multipleChoice'}))
+                    ];
                 }
-            });
-        }
 
-        // 保存数据
-        function saveData() {
-            localStorage.setItem('adLawProData', JSON.stringify(state));
-        }
+                this.currentQuestions = this.shuffleArray(questions);
+                this.currentIndex = 0;
 
-        // 渲染分类卡片
-        function renderCategories() {
-            const grid = document.getElementById('categoryGrid');
-            grid.innerHTML = CATEGORIES.map(cat => {
-                const count = cat.id === 'all' ? QUESTIONS.length : QUESTIONS.filter(q => q.cat === cat.id).length;
-                const cardClass = cat.id === 'all' ? 'category-card all' : 'category-card';
-                return `
-                    <div class="${cardClass}" onclick="openCategory('${cat.id}')">
-                        <div class="category-icon">${ICONS[cat.icon]}</div>
-                        <div class="category-name">${cat.name}</div>
-                        <div class="category-count">${count}题 · ${cat.desc}</div>
-                    </div>
-                `;
-            }).join('');
-        }
+                document.getElementById('homePage').classList.add('hidden');
+                document.getElementById('quizPage').classList.remove('hidden');
 
-        // 打开分类学习
-        function openCategory(categoryId) {
-            state.currentCategory = categoryId;
+                this.renderQuestion();
+            },
 
-            // 获取该分类的题目并随机排序
-            if (categoryId === 'all') {
-                state.currentQuestions = [...Array(QUESTIONS.length).keys()];
-            } else {
-                state.currentQuestions = QUESTIONS
-                    .map((q, i) => ({ q, i }))
-                    .filter(item => item.q.cat === categoryId)
-                    .map(item => item.i);
-            }
+            showWeakPoints() {
+                const progress = JSON.parse(localStorage.getItem('adLawProgress') || '{}');
+                const weakQuestions = [];
 
-            // 随机排序
-            shuffleArray(state.currentQuestions);
-            state.currentIndex = 0;
-
-            // 显示学习页面
-            document.getElementById('studyPage').classList.add('active');
-            document.getElementById('studyPageTitle').textContent =
-                CATEGORIES.find(c => c.id === categoryId)?.name || '学习';
-
-            renderQuestion();
-            updateNavButtons();
-        }
-
-        // 数组随机排序
-        function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-        }
-
-        // 关闭学习页面
-        function closStudy() {
-            const page = document.getElementById('studyPage');
-            page.classList.add('closing');
-            setTimeout(() => {
-                page.classList.remove('active', 'closing');
-            }, 400);
-            updateProgress();
-        }
-
-        // 模式切换
-        function setupModeToggle() {
-            document.querySelectorAll('.mode-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    state.mode = btn.dataset.mode;
-                    saveData();
-                    renderQuestion();
-                });
-            });
-        }
-
-        // 渲染题目
-        function renderQuestion() {
-            if (state.currentQuestions.length === 0) {
-                document.getElementById('cardContainer').innerHTML = '<div class="loading">没有题目</div>';
-                return;
-            }
-
-            const qIndex = state.currentQuestions[state.currentIndex];
-            const q = QUESTIONS[qIndex];
-            const record = state.records[qIndex];
-
-            const container = document.getElementById('cardContainer');
-
-            if (state.mode === 'self') {
-                // 自评模式
-                container.innerHTML = `
-                    <div class="question-card">
-                        <div class="card-progress-mini">
-                            <span class="card-category-badge">${q.cat}</span>
-                            <div class="card-stats">
-                                <span class="stat-correct">${record.correct}</span>
-                                <span class="stat-wrong">${record.wrong}</span>
-                            </div>
-                        </div>
-                        <div class="question-text" id="questionText"></div>
-                        <div class="action-buttons">
-                            <button class="action-btn btn-wrong" onclick="handleAnswer(false)">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="20" height="20" style="display:inline-block;vertical-align:middle;margin-right:6px">
-                                    <circle cx="12" cy="12" r="10"/>
-                                    <path d="M15 9l-6 6M9 9l6 6"/>
-                                </svg>
-                                不记得
-                            </button>
-                            <button class="action-btn btn-correct" onclick="handleAnswer(true)">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="20" height="20" style="display:inline-block;vertical-align:middle;margin-right:6px">
-                                    <circle cx="12" cy="12" r="10"/>
-                                    <path d="M9 12l2 2 4-4"/>
-                                </svg>
-                                记得
-                            </button>
-                        </div>
-                    </div>
-                `;
-
-                // 渲染带填空的文本
-                setTimeout(() => {
-                    const textEl = document.getElementById('questionText');
-                    textEl.innerHTML = q.q.replace(/____/g, `<span class="blank">${q.a}</span>`);
-
-                    // 绑定点击显示
-                    document.querySelectorAll('.blank').forEach(blank => {
-                        blank.addEventListener('click', () => {
-                            blank.classList.toggle('revealed');
-                        });
-                    });
-                }, 0);
-
-            } else if (state.mode === 'flip') {
-                // 翻卡牌模式
-                container.innerHTML = `
-                    <div class="question-card">
-                        <div class="card-progress-mini">
-                            <span class="card-category-badge">${q.cat}</span>
-                            <div class="card-stats">
-                                <span class="stat-correct">${record.correct}</span>
-                                <span class="stat-wrong">${record.wrong}</span>
-                            </div>
-                        </div>
-                        <div class="flip-card-container" id="flipCard" onclick="this.classList.toggle('flipped')">
-                            <div class="flip-card-inner">
-                                <div class="flip-card-face flip-card-front">
-                                    <div class="question-text">${q.q}</div>
-                                    <div class="flip-hint">
-                                        <svg class="flip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20" style="display:inline-block;vertical-align:middle">
-                                            <path d="M9 18l6-6-6-6"/>
-                                        </svg>
-                                        <span>点击翻转查看答案</span>
-                                    </div>
-                                </div>
-                                <div class="flip-card-face flip-card-back">
-                                    <div style="font-size: 15px; color: var(--text-secondary); margin-bottom: 12px;">问题：</div>
-                                    <div style="font-size: 16px; line-height: 1.6; margin-bottom: 24px;">${q.q.replace(/____/g, '<span style="color: var(--primary); font-weight: 600;">' + q.a + '</span>')}</div>
-                                    <div style="font-size: 15px; color: var(--text-secondary); margin-bottom: 12px;">答案：</div>
-                                    <div style="font-size: 22px; font-weight: 700; color: var(--primary);">${q.a}</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="action-buttons">
-                            <button class="action-btn btn-wrong" onclick="handleAnswer(false)">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="20" height="20" style="display:inline-block;vertical-align:middle;margin-right:6px">
-                                    <circle cx="12" cy="12" r="10"/>
-                                    <path d="M15 9l-6 6M9 9l6 6"/>
-                                </svg>
-                                不记得
-                            </button>
-                            <button class="action-btn btn-correct" onclick="handleAnswer(true)">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="20" height="20" style="display:inline-block;vertical-align:middle;margin-right:6px">
-                                    <circle cx="12" cy="12" r="10"/>
-                                    <path d="M9 12l2 2 4-4"/>
-                                </svg>
-                                记得
-                            </button>
-                        </div>
-                    </div>
-                `;
-
-            } else if (state.mode === 'choice') {
-                // 选择题模式
-                container.innerHTML = `
-                    <div class="question-card">
-                        <div class="card-progress-mini">
-                            <span class="card-category-badge">${q.cat}</span>
-                            <div class="card-stats">
-                                <span class="stat-correct">${record.correct}</span>
-                                <span class="stat-wrong">${record.wrong}</span>
-                            </div>
-                        </div>
-                        <div class="question-text">${q.q}</div>
-                        <div class="options-container">
-                            ${q.opts.map(opt => `
-                                <div class="option" onclick="selectOption(this, '${opt}', '${q.a}')">
-                                    ${opt}
-                                </div>
-                            `).join('')}
-                        </div>
-                    </div>
-                `;
-            }
-        }
-
-        // 处理答题
-        function handleAnswer(isCorrect) {
-            const qIndex = state.currentQuestions[state.currentIndex];
-            const record = state.records[qIndex];
-
-            if (isCorrect) {
-                record.correct++;
-            } else {
-                record.wrong++;
-            }
-            record.lastTime = Date.now();
-
-            saveData();
-            updateProgress();
-
-            // 自动下一题
-            setTimeout(() => {
-                goNext();
-            }, 300);
-        }
-
-        // 选择题选项处理
-        function selectOption(element, selected, correct) {
-            if (element.classList.contains('correct') || element.classList.contains('wrong')) {
-                return;
-            }
-
-            const qIndex = state.currentQuestions[state.currentIndex];
-            const record = state.records[qIndex];
-
-            const isCorrect = selected === correct;
-
-            if (isCorrect) {
-                element.classList.add('correct');
-                record.correct++;
-            } else {
-                element.classList.add('wrong');
-                record.wrong++;
-
-                // 标记正确答案
-                document.querySelectorAll('.option').forEach(opt => {
-                    if (opt.textContent.trim() === correct) {
-                        opt.classList.add('correct');
+                questionBank.fillBlanks.forEach((q, idx) => {
+                    if (progress[`fb_${idx}`] && progress[`fb_${idx}`].wrong > 0) {
+                        weakQuestions.push({...q, type: 'fillBlank', originalIndex: idx, wrongCount: progress[`fb_${idx}`].wrong});
                     }
                 });
-            }
 
-            record.lastTime = Date.now();
-            saveData();
-            updateProgress();
-
-            // 自动下一题
-            setTimeout(() => {
-                goNext();
-            }, 1500);
-        }
-
-        // 导航功能
-        function updateNavButtons() {
-            const prevBtn = document.getElementById('prevBtn');
-            const nextBtn = document.getElementById('nextBtn');
-
-            prevBtn.disabled = state.currentIndex === 0;
-            nextBtn.disabled = state.currentIndex >= state.currentQuestions.length - 1;
-        }
-
-        function goPrev() {
-            if (state.currentIndex > 0) {
-                state.currentIndex--;
-                renderQuestion();
-                updateNavButtons();
-            }
-        }
-
-        function goNext() {
-            if (state.currentIndex < state.currentQuestions.length - 1) {
-                state.currentIndex++;
-                renderQuestion();
-                updateNavButtons();
-            }
-        }
-
-        // 更新进度
-        function updateProgress() {
-            const total = QUESTIONS.length;
-            let mastered = 0;
-            let weak = 0;
-
-            QUESTIONS.forEach((q, i) => {
-                const record = state.records[i];
-                if (record.correct >= 3 && record.wrong === 0) {
-                    mastered++;
-                } else if (record.wrong > record.correct || record.wrong >= 2) {
-                    weak++;
-                }
-            });
-
-            const percentage = Math.round((mastered / total) * 100);
-
-            document.getElementById('totalCount').textContent = total;
-            document.getElementById('masteredCount').textContent = mastered;
-            document.getElementById('weakCount').textContent = weak;
-            document.getElementById('progressPercentage').textContent = percentage + '%';
-            document.getElementById('progressBar').style.width = percentage + '%';
-        }
-
-        // 设置面板
-        function toggleSettings() {
-            const panel = document.getElementById('settingsPanel');
-            const overlay = document.getElementById('overlay');
-
-            panel.classList.toggle('active');
-            overlay.classList.toggle('active');
-        }
-
-        function randomizeQuestions() {
-            if (state.currentQuestions.length > 0) {
-                shuffleArray(state.currentQuestions);
-                state.currentIndex = 0;
-                renderQuestion();
-                updateNavButtons();
-            }
-            toggleSettings();
-        }
-
-        function resetProgress() {
-            if (confirm('确定要重置所有学习进度吗？此操作不可恢复。')) {
-                state.records = {};
-                QUESTIONS.forEach((q, i) => {
-                    state.records[i] = { correct: 0, wrong: 0, lastTime: 0 };
+                questionBank.trueFalse.forEach((q, idx) => {
+                    if (progress[`tf_${idx}`] && progress[`tf_${idx}`].wrong > 0) {
+                        weakQuestions.push({...q, type: 'trueFalse', originalIndex: idx, wrongCount: progress[`tf_${idx}`].wrong});
+                    }
                 });
-                saveData();
-                updateProgress();
-                if (state.currentQuestions.length > 0) {
-                    renderQuestion();
+
+                questionBank.multipleChoice.forEach((q, idx) => {
+                    if (progress[`mc_${idx}`] && progress[`mc_${idx}`].wrong > 0) {
+                        weakQuestions.push({...q, type: 'multipleChoice', originalIndex: idx, wrongCount: progress[`mc_${idx}`].wrong});
+                    }
+                });
+
+                if (weakQuestions.length === 0) {
+                    alert('目前还没有错题记录，继续刷题吧！');
+                    return;
                 }
-                toggleSettings();
-                alert('进度已重置！');
-            }
-        }
 
-        function exportData() {
-            const dataStr = JSON.stringify(state, null, 2);
-            const blob = new Blob([dataStr], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `广告法复习数据_${new Date().toLocaleDateString()}.json`;
-            a.click();
-            URL.revokeObjectURL(url);
-            toggleSettings();
-        }
+                weakQuestions.sort((a, b) => b.wrongCount - a.wrongCount);
+                this.currentQuestions = weakQuestions;
+                this.currentIndex = 0;
 
-        function importData() {
-            const input = document.createElement('input');
-            input.type = 'file';
-            input.accept = '.json';
-            input.onchange = (e) => {
-                const file = e.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = (event) => {
-                        try {
-                            const data = JSON.parse(event.target.result);
-                            Object.assign(state, data);
-                            saveData();
-                            updateProgress();
-                            if (state.currentQuestions.length > 0) {
-                                renderQuestion();
-                            }
-                            toggleSettings();
-                            alert('导入成功！');
-                        } catch (error) {
-                            alert('导入失败：文件格式错误');
+                document.getElementById('homePage').classList.add('hidden');
+                document.getElementById('quizPage').classList.remove('hidden');
+                this.renderQuestion();
+            },
+
+            renderQuestion() {
+                const q = this.currentQuestions[this.currentIndex];
+                if (!q) return;
+
+                const container = document.getElementById('questionContainer');
+                const progress = document.getElementById('quizProgress');
+                progress.textContent = `${this.currentIndex + 1}/${this.currentQuestions.length}`;
+
+                if (q.type === 'fillBlank') {
+                    container.innerHTML = this.renderFillBlank(q);
+                    container.querySelectorAll('.blank').forEach(blank => {
+                        blank.addEventListener('click', (e) => {
+                            const index = parseInt(e.currentTarget.getAttribute('data-index'));
+                            this.showBlankAnswer(index);
+                        });
+                    });
+                } else if (q.type === 'trueFalse') {
+                    container.innerHTML = this.renderTrueFalse(q);
+                    container.querySelectorAll('.option').forEach(opt => {
+                        opt.addEventListener('click', (e) => {
+                            const answer = e.currentTarget.getAttribute('data-answer') === 'true';
+                            this.answerTrueFalse(answer);
+                        });
+                    });
+                } else if (q.type === 'multipleChoice') {
+                    container.innerHTML = this.renderMultipleChoice(q);
+                    container.querySelectorAll('.option').forEach(opt => {
+                        opt.addEventListener('click', (e) => {
+                            const index = parseInt(e.currentTarget.getAttribute('data-index'));
+                            this.toggleMultipleChoice(index);
+                        });
+                    });
+                    const checkBtn = container.querySelector('.check-answer-btn');
+                    if (checkBtn) {
+                        checkBtn.addEventListener('click', () => this.checkMultipleChoice());
+                    }
+                }
+
+                document.getElementById('prevBtn').disabled = this.currentIndex === 0;
+                document.getElementById('nextBtn').textContent =
+                    this.currentIndex === this.currentQuestions.length - 1 ? '完成' : '下一题';
+            },
+
+            // 彻底修复填空题替换逻辑与样式嵌套问题
+            renderFillBlank(q) {
+                let blankCounter = 0;
+              
+                // 使用单次正则替换，避免在已生成的 HTML 中发生二次替换
+                const renderedText = q.text.replace(/__/g, () => {
+                    const currentIdx = blankCounter++;
+                    if (currentIdx >= q.blanks.length) return '__';
+
+                    const answered = q.answers[currentIdx];
+                    if (answered !== undefined) {
+                        return `<span class="blank answered" data-index="${currentIdx}">${q.blanks[currentIdx]}</span>`;
+                    } else {
+                        return `<span class="blank unanswered" data-index="${currentIdx}">[点击查看]</span>`;
+                    }
+                });
+
+                const allAnswered = q.blanks.every((_, idx) => q.answers[idx] !== undefined);
+                const progressText = allAnswered
+                    ? '<div style="color: var(--success); margin-top: 16px; font-size: 14px; font-weight: 600;">✓ 已全部作答完成，请参阅下方法律原文：</div>'
+                    : `<div style="color: var(--gray-600); margin-top: 16px; font-size: 14px;">点击横线查看答案（完成进度: ${q.answers.filter(a => a !== undefined).length}/${q.blanks.length}）</div>`;
+
+                let referenceHTML = '';
+                if (allAnswered) {
+                    const clause = getClauseText('fillblank', q.originalIndex, q.law);
+                    referenceHTML = `
+                        <div class="law-reference-box">
+                            <div class="law-reference-title">📖 法律条文对照 · ${LAW_NAMES[q.law]}</div>
+                            <div class="law-reference-content">${clause}</div>
+                        </div>
+                    `;
+                }
+
+                return `
+                    <div class="question-card">
+                        <span class="question-type">填空题</span>
+                        <div class="question-text">${renderedText}</div>
+                        ${progressText}
+                        ${referenceHTML}
+                    </div>
+                `;
+            },
+
+            renderTrueFalse(q) {
+                const isAnswered = q.answered !== null && q.answered !== undefined;
+                const isCorrect = isAnswered && q.answered === q.answer;
+
+                let feedbackHTML = '';
+                if (isAnswered) {
+                    const statusText = isCorrect
+                        ? '<span style="color: var(--success); font-weight: 600;">✓ 回答正确</span>'
+                        : `<span style="color: var(--danger); font-weight: 600;">✗ 回答错误（正确答案为：${q.answer ? '正确' : '错误'}）</span>`;
+
+                    const clause = getClauseText('truefalse', q.originalIndex, q.law);
+                    feedbackHTML = `
+                        <div style="margin-top: 16px;">${statusText}</div>
+                        <div class="law-reference-box">
+                            <div class="law-reference-title">📖 法律条文对照 · ${LAW_NAMES[q.law]}</div>
+                            <div class="law-reference-content">${clause}</div>
+                        </div>
+                    `;
+                }
+
+                return `
+                    <div class="question-card">
+                        <span class="question-type">判断题</span>
+                        <div class="question-text">${q.question}</div>
+                        <div class="options">
+                            <div class="option ${q.answered === true ? (isAnswered ? (q.answer === true ? 'correct' : 'wrong') : 'selected') : ''}" data-answer="true">
+                                <div class="option-label">${q.answered === true ? '✓' : '○'}</div>
+                                <div class="option-text">正确</div>
+                            </div>
+                            <div class="option ${q.answered === false ? (isAnswered ? (q.answer === false ? 'correct' : 'wrong') : 'selected') : ''}" data-answer="false">
+                                <div class="option-label">${q.answered === false ? '✓' : '○'}</div>
+                                <div class="option-text">错误</div>
+                            </div>
+                        </div>
+                        ${feedbackHTML}
+                    </div>
+                `;
+            },
+
+            renderMultipleChoice(q) {
+                const optionLabels = ['A', 'B', 'C', 'D'];
+                const optionsHTML = q.options.map((opt, idx) => {
+                    const isSelected = q.selected && q.selected.includes(idx);
+                    const isCorrect = q.correct.includes(idx);
+                    let className = 'option';
+
+                    if (q.showCorrect) {
+                        if (isCorrect) {
+                            className += ' correct';
+                        } else if (isSelected) {
+                            className += ' wrong';
                         }
-                    };
-                    reader.readAsText(file);
-                }
-            };
-            input.click();
-        }
+                    } else if (isSelected) {
+                        className += ' selected';
+                    }
 
-        // 启动应用
-        window.addEventListener('DOMContentLoaded', init);
+                    return `
+                        <div class="${className}" data-index="${idx}">
+                            <div class="option-label">${optionLabels[idx]}</div>
+                            <div class="option-text">${opt}</div>
+                        </div>
+                    `;
+                }).join('');
+
+                let referenceHTML = '';
+                if (q.showCorrect) {
+                    const clause = getClauseText('choice', q.originalIndex, q.law);
+                    referenceHTML = `
+                        <div class="law-reference-box">
+                            <div class="law-reference-title">📖 法律条文对照 · ${LAW_NAMES[q.law]}</div>
+                            <div class="law-reference-content">${clause}</div>
+                        </div>
+                    `;
+                }
+
+                return `
+                    <div class="question-card">
+                        <span class="question-type">多项选择题</span>
+                        <div class="question-text">${q.question}</div>
+                        <div class="options">${optionsHTML}</div>
+                        ${referenceHTML}
+                    </div>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary check-answer-btn">确认检查答案</button>
+                    </div>
+                `;
+            },
+
+            showBlankAnswer(index) {
+                const q = this.currentQuestions[this.currentIndex];
+                const answer = q.blanks[index];
+
+                const overlay = document.createElement('div');
+                overlay.className = 'overlay';
+                overlay.onclick = () => {
+                    overlay.remove();
+                    popup.remove();
+                };
+
+                const popup = document.createElement('div');
+                popup.className = 'blank-popup';
+                popup.innerHTML = `
+                    <div class="blank-popup-answer">${answer}</div>
+                    <div class="blank-popup-buttons">
+                        <button class="blank-btn blank-btn-correct" data-correct="true">记住了</button>
+                        <button class="blank-btn blank-btn-wrong" data-correct="false">没记住</button>
+                    </div>
+                `;
+
+                document.body.appendChild(overlay);
+                document.body.appendChild(popup);
+
+                popup.querySelectorAll('.blank-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const correct = e.currentTarget.getAttribute('data-correct') === 'true';
+                        this.answerBlank(index, correct);
+                    });
+                });
+            },
+
+            answerBlank(index, correct) {
+                const q = this.currentQuestions[this.currentIndex];
+                q.answers[index] = correct;
+
+                if (!correct) {
+                    this.recordWrong('fb', q.originalIndex);
+                }
+
+                document.querySelectorAll('.overlay, .blank-popup').forEach(el => el.remove());
+                this.renderQuestion();
+            },
+
+            answerTrueFalse(answer) {
+                const q = this.currentQuestions[this.currentIndex];
+                q.answered = answer;
+
+                if (answer !== q.answer) {
+                    this.recordWrong('tf', q.originalIndex);
+                }
+                this.renderQuestion();
+            },
+
+            toggleMultipleChoice(index) {
+                const q = this.currentQuestions[this.currentIndex];
+                if (q.showCorrect) return;
+
+                if (!q.selected) q.selected = [];
+                const idx = q.selected.indexOf(index);
+                if (idx > -1) {
+                    q.selected.splice(idx, 1);
+                } else {
+                    q.selected.push(index);
+                }
+                this.renderQuestion();
+            },
+
+            checkMultipleChoice() {
+                const q = this.currentQuestions[this.currentIndex];
+                if (!q.selected || q.selected.length === 0) {
+                    alert('请先选择你的答案！');
+                    return;
+                }
+
+                const correct = JSON.stringify(q.selected.sort()) === JSON.stringify(q.correct.sort());
+                if (!correct) {
+                    this.recordWrong('mc', q.originalIndex);
+                }
+
+                q.showCorrect = true;
+                this.renderQuestion();
+            },
+
+            recordWrong(type, originalIndex) {
+                const progress = JSON.parse(localStorage.getItem('adLawProgress') || '{}');
+                const key = `${type}_${originalIndex}`;
+
+                if (!progress[key]) {
+                    progress[key] = { wrong: 0, correct: 0 };
+                }
+                progress[key].wrong++;
+                localStorage.setItem('adLawProgress', JSON.stringify(progress));
+            },
+
+            prevQuestion() {
+                if (this.currentIndex > 0) {
+                    this.currentIndex--;
+                    this.renderQuestion();
+                }
+            },
+
+            nextQuestion() {
+                if (this.currentIndex < this.currentQuestions.length - 1) {
+                    this.currentIndex++;
+                    this.renderQuestion();
+                } else {
+                    alert('恭喜你，已完成当前练习组！');
+                    this.exitQuiz();
+                }
+            },
+
+            exitQuiz() {
+                document.getElementById('quizPage').classList.add('hidden');
+                document.getElementById('homePage').classList.remove('hidden');
+            },
+
+            loadProgress() {
+                return JSON.parse(localStorage.getItem('adLawProgress') || '{}');
+            },
+
+            exportData() {
+                const data = localStorage.getItem('adLawProgress') || '{}';
+                const blob = new Blob([data], {type: "application/json"});
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `广告法复习进度_${new Date().toISOString().slice(0,10)}.json`;
+                a.click();
+            },
+
+            importData() {
+                document.getElementById('fileInput').click();
+                document.getElementById('fileInput').onchange = (e) => {
+                    const file = e.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = (event) => {
+                            try {
+                                JSON.parse(event.target.result);
+                                localStorage.setItem('adLawProgress', event.target.result);
+                                alert('学习进度导入成功！');
+                            } catch (err) {
+                                alert('导入失败，文件内容有误！');
+                            }
+                        };
+                        reader.readAsText(file);
+                    }
+                };
+            },
+
+            clearData() {
+                if (confirm('确认清空所有错题与学习数据吗？此操作无法撤销。')) {
+                    localStorage.removeItem('adLawProgress');
+                    alert('数据已重置！');
+                }
+            },
+
+            shuffleArray(array) {
+                const arr = [...array];
+                for (let i = arr.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [arr[i], arr[j]] = [arr[j], arr[i]];
+                }
+                return arr;
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            window.app.init();
+        });
     </script>
 </body>
 </html>
