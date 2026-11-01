@@ -1,3 +1,13 @@
+已经为你增加了**自动断点续学（会话历史缓存）机制**。
+
+### 这次升级解决的核心痛点：
+1. **自动断点保存**：你在答题过程中的每一道题、每选择一个选项、填写的每一个空、当前的题目进度序号，都会**毫秒级自动持久化存储**到本地缓存（`localStorage`）。
+2. **退出/刷新不丢失**：即使你不小心手滑关闭页面、直接按退出，或者手机浏览器被后台清理，只要重新打开页面，系统就会检测到未完成的测试，并在首页顶部显示醒目的**【继续上次测试】**入口，一键恢复到退出前的题目与答题状态。
+3. **完成清理**：当你完整打完全部题目后，断点缓存会自动清空，错题记录则长期保留。
+
+以下是修复升级后的完整单文件 HTML 代码，直接全选复制并保存即可：
+
+```html
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -47,21 +57,57 @@
 
         header {
             text-align: center;
-            padding: 30px 0 20px;
+            padding: 24px 0 16px;
             border-bottom: 2px solid var(--gray-100);
-            margin-bottom: 30px;
+            margin-bottom: 24px;
         }
 
         h1 {
             font-size: 24px;
             font-weight: 700;
             color: var(--gray-900);
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .subtitle {
             font-size: 14px;
             color: var(--gray-600);
+        }
+
+        /* 继续上次练习提示横幅 */
+        .resume-banner {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .resume-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .resume-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+
+        .resume-desc {
+            font-size: 12px;
+            color: var(--gray-600);
+        }
+
+        .resume-actions {
+            display: flex;
+            gap: 8px;
+            flex-shrink: 0;
         }
 
         .nav-grid {
@@ -88,9 +134,9 @@
         }
 
         .nav-card-icon {
-            width: 40px;
-            height: 40px;
-            margin: 0 auto 12px;
+            width: 36px;
+            height: 36px;
+            margin: 0 auto 10px;
         }
 
         .nav-card-title {
@@ -106,9 +152,9 @@
         }
 
         .section-title {
-            font-size: 18px;
+            font-size: 17px;
             font-weight: 600;
-            margin: 30px 0 16px;
+            margin: 28px 0 14px;
             color: var(--gray-900);
             display: flex;
             align-items: center;
@@ -154,16 +200,21 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            padding: 12px 24px;
+            gap: 6px;
+            padding: 10px 18px;
             border: none;
             border-radius: 8px;
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.2s;
             text-decoration: none;
             color: white;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 13px;
         }
 
         .btn-primary {
@@ -192,7 +243,7 @@
         .quiz-header {
             background: white;
             border-bottom: 1px solid var(--gray-200);
-            padding: 16px 20px;
+            padding: 14px 20px;
             position: sticky;
             top: 0;
             z-index: 100;
@@ -204,7 +255,7 @@
         .quiz-progress {
             font-size: 14px;
             color: var(--gray-600);
-            font-weight: 500;
+            font-weight: 600;
         }
 
         .quiz-close {
@@ -248,13 +299,12 @@
             margin-bottom: 20px;
         }
 
-        /* 修复后的填空横线样式 */
         .blank {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            min-width: 70px;
-            padding: 1px 10px;
+            min-width: 60px;
+            padding: 1px 8px;
             margin: 0 4px;
             border-bottom: 2px solid var(--primary);
             background: var(--gray-100);
@@ -274,7 +324,7 @@
         .blank.unanswered {
             color: #94a3b8;
             font-size: 12px;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
         }
 
         .blank.answered {
@@ -492,8 +542,20 @@
     <div id="homePage" class="container">
         <header>
             <h1>广告法九部法规复习工具</h1>
-            <p class="subtitle">逐题对照法律条文 · 强化记忆高频考点</p>
+            <p class="subtitle">自动断点续学 · 逐题对照法条原文</p>
         </header>
+
+        <!-- 继续做题入口横幅 -->
+        <div id="resumeBanner" class="resume-banner hidden">
+            <div class="resume-info">
+                <span class="resume-title" id="resumeTitle">检测到上次未完成的练习</span>
+                <span class="resume-desc" id="resumeDesc">正在第 1 题，共 50 题</span>
+            </div>
+            <div class="resume-actions">
+                <button class="btn btn-primary btn-sm" onclick="window.app.resumeQuiz()">继续做题</button>
+                <button class="btn btn-outline btn-sm" onclick="window.app.discardQuiz()">放弃</button>
+            </div>
+        </div>
 
         <div class="nav-grid">
             <div class="nav-card" onclick="window.app.startQuiz('random', 'all')">
@@ -581,13 +643,13 @@
             <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
             </svg>
-            进度管理
+            进度与数据
         </div>
 
         <div style="display: flex; gap: 12px; margin-top: 16px;">
             <button class="btn btn-outline" onclick="window.app.exportData()" style="flex: 1;">导出进度</button>
             <button class="btn btn-outline" onclick="window.app.importData()" style="flex: 1;">导入进度</button>
-            <button class="btn btn-outline" onclick="window.app.clearData()" style="flex: 1;">重置数据</button>
+            <button class="btn btn-outline" onclick="window.app.clearData()" style="flex: 1;">清空重置</button>
         </div>
     </div>
 
@@ -825,10 +887,10 @@
                 30: "《房地产广告发布规定》第七条、第十条：房地产广告必须载明开发企业名称、许可证号，明确实际销售价格及有效期限。",
                 31: "《房地产广告发布规定》第十八条：严禁承诺为入住者办理户口、就业、升学等事项。",
                 32: "《药品等四类审查管理暂行办法》第二十一条：麻醉药品、精神药品、医疗用毒性药品、放射性药品绝对禁止发布广告。",
-                33: "《药品等四类审查管理暂行办法》第十条：严禁利用科研单位、学术机构、行业协会、专家、学者、医师、药师、临床营养师、患者名义/形象推荐证明。",
-                34: "《药品等四类审查管理暂行办法》第十条：严禁含有“热销、抢购、试用”、“家庭必备”、“免费治疗”、“免费赠送”等诱导性内容。",
-                35: "《药品等四类审查管理暂行办法》第十条：严禁含有“评比、排序、推荐、指定、选用、获奖”等综合性评价内容。",
-                36: "《药品等四类审查管理暂行办法》第十条：严禁含有医疗机构名称、地址、联系方式、诊疗项目/方法、义诊、咨询电话、特约门诊等内容。"
+                33: "《药品等四类审查管理暂行办法》第十一条：严禁利用科研单位、学术机构、行业协会、专家、学者、医师、药师、临床营养师、患者名义/形象推荐证明。",
+                34: "《药品等四类审查管理暂行办法》第十一条：严禁含有“热销、抢购、试用”、“家庭必备”、“免费治疗”、“免费赠送”等诱导性内容。",
+                35: "《药品等四类审查管理暂行办法》第十一条：严禁含有“评比、排序、推荐、指定、选用、获奖”等综合性评价内容。",
+                36: "《药品等四类审查管理暂行办法》第十一条：严禁含有医疗机构名称、地址、联系方式、诊疗项目/方法、义诊、咨询电话、特约门诊等内容。"
             }
         };
 
@@ -1025,13 +1087,69 @@
         window.app = {
             currentQuestions: [],
             currentIndex: 0,
+            sessionTitle: '',
 
             init() {
                 this.loadProgress();
+                this.checkActiveSession();
+            },
+
+            // 检查是否有未完成的答题缓存
+            checkActiveSession() {
+                const session = localStorage.getItem('adLawActiveSession');
+                const banner = document.getElementById('resumeBanner');
+                if (session) {
+                    try {
+                        const parsed = JSON.parse(session);
+                        if (parsed.questions && parsed.questions.length > 0) {
+                            document.getElementById('resumeTitle').textContent = `继续练习：${parsed.title || '上次测试'}`;
+                            document.getElementById('resumeDesc').textContent = `上次进度第 ${parsed.currentIndex + 1} 题，共 ${parsed.questions.length} 题`;
+                            banner.classList.remove('hidden');
+                            return;
+                        }
+                    } catch (e) {
+                        localStorage.removeItem('adLawActiveSession');
+                    }
+                }
+                banner.classList.add('hidden');
+            },
+
+            // 保存当前测试进度的实时缓存
+            saveActiveSession() {
+                if (!this.currentQuestions || this.currentQuestions.length === 0) return;
+                const sessionData = {
+                    title: this.sessionTitle,
+                    currentIndex: this.currentIndex,
+                    questions: this.currentQuestions
+                };
+                localStorage.setItem('adLawActiveSession', JSON.stringify(sessionData));
+            },
+
+            // 恢复进度
+            resumeQuiz() {
+                const session = localStorage.getItem('adLawActiveSession');
+                if (!session) return;
+                const parsed = JSON.parse(session);
+                this.sessionTitle = parsed.title;
+                this.currentIndex = parsed.currentIndex || 0;
+                this.currentQuestions = parsed.questions || [];
+
+                document.getElementById('homePage').classList.add('hidden');
+                document.getElementById('quizPage').classList.remove('hidden');
+                this.renderQuestion();
+            },
+
+            // 放弃未完成进度
+            discardQuiz() {
+                if (confirm('确认放弃上次未完成的练习吗？')) {
+                    localStorage.removeItem('adLawActiveSession');
+                    document.getElementById('resumeBanner').classList.add('hidden');
+                }
             },
 
             startQuiz(type, lawIndex) {
                 let questions = [];
+                let title = '全题型总测试';
 
                 if (lawIndex === 'all') {
                     questions = [
@@ -1040,6 +1158,7 @@
                         ...questionBank.multipleChoice.map((q, idx) => ({...q, type: 'multipleChoice', originalIndex: idx}))
                     ];
                 } else {
+                    title = `${LAW_NAMES[lawIndex]} 专项测试`;
                     const fb = questionBank.fillBlanks.map((q, idx) => ({...q, originalIndex: idx})).filter(q => q.law === lawIndex);
                     const tf = questionBank.trueFalse.map((q, idx) => ({...q, originalIndex: idx})).filter(q => q.law === lawIndex);
                     const mc = questionBank.multipleChoice.map((q, idx) => ({...q, originalIndex: idx})).filter(q => q.law === lawIndex);
@@ -1051,8 +1170,11 @@
                     ];
                 }
 
+                this.sessionTitle = title;
                 this.currentQuestions = this.shuffleArray(questions);
                 this.currentIndex = 0;
+
+                this.saveActiveSession();
 
                 document.getElementById('homePage').classList.add('hidden');
                 document.getElementById('quizPage').classList.remove('hidden');
@@ -1088,8 +1210,11 @@
                 }
 
                 weakQuestions.sort((a, b) => b.wrongCount - a.wrongCount);
+                this.sessionTitle = '错题强化专练';
                 this.currentQuestions = weakQuestions;
                 this.currentIndex = 0;
+
+                this.saveActiveSession();
 
                 document.getElementById('homePage').classList.add('hidden');
                 document.getElementById('quizPage').classList.remove('hidden');
@@ -1137,13 +1262,13 @@
                 document.getElementById('prevBtn').disabled = this.currentIndex === 0;
                 document.getElementById('nextBtn').textContent =
                     this.currentIndex === this.currentQuestions.length - 1 ? '完成' : '下一题';
+              
+                // 状态更新后保存当前题号
+                this.saveActiveSession();
             },
 
-            // 彻底修复填空题替换逻辑与样式嵌套问题
             renderFillBlank(q) {
                 let blankCounter = 0;
-              
-                // 使用单次正则替换，避免在已生成的 HTML 中发生二次替换
                 const renderedText = q.text.replace(/__/g, () => {
                     const currentIdx = blankCounter++;
                     if (currentIdx >= q.blanks.length) return '__';
@@ -1311,6 +1436,7 @@
                 }
 
                 document.querySelectorAll('.overlay, .blank-popup').forEach(el => el.remove());
+                this.saveActiveSession();
                 this.renderQuestion();
             },
 
@@ -1321,6 +1447,7 @@
                 if (answer !== q.answer) {
                     this.recordWrong('tf', q.originalIndex);
                 }
+                this.saveActiveSession();
                 this.renderQuestion();
             },
 
@@ -1335,6 +1462,7 @@
                 } else {
                     q.selected.push(index);
                 }
+                this.saveActiveSession();
                 this.renderQuestion();
             },
 
@@ -1351,6 +1479,7 @@
                 }
 
                 q.showCorrect = true;
+                this.saveActiveSession();
                 this.renderQuestion();
             },
 
@@ -1368,6 +1497,7 @@
             prevQuestion() {
                 if (this.currentIndex > 0) {
                     this.currentIndex--;
+                    this.saveActiveSession();
                     this.renderQuestion();
                 }
             },
@@ -1375,16 +1505,22 @@
             nextQuestion() {
                 if (this.currentIndex < this.currentQuestions.length - 1) {
                     this.currentIndex++;
+                    this.saveActiveSession();
                     this.renderQuestion();
                 } else {
                     alert('恭喜你，已完成当前练习组！');
+                    // 完成全部后清除会话缓存
+                    localStorage.removeItem('adLawActiveSession');
                     this.exitQuiz();
                 }
             },
 
             exitQuiz() {
+                // 退出时保存状态
+                this.saveActiveSession();
                 document.getElementById('quizPage').classList.add('hidden');
                 document.getElementById('homePage').classList.remove('hidden');
+                this.checkActiveSession();
             },
 
             loadProgress() {
@@ -1392,12 +1528,15 @@
             },
 
             exportData() {
-                const data = localStorage.getItem('adLawProgress') || '{}';
-                const blob = new Blob([data], {type: "application/json"});
+                const data = {
+                    progress: JSON.parse(localStorage.getItem('adLawProgress') || '{}'),
+                    activeSession: JSON.parse(localStorage.getItem('adLawActiveSession') || 'null')
+                };
+                const blob = new Blob([JSON.stringify(data)], {type: "application/json"});
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = `广告法复习进度_${new Date().toISOString().slice(0,10)}.json`;
+                a.download = `广告法复习备份_${new Date().toISOString().slice(0,10)}.json`;
                 a.click();
             },
 
@@ -1409,9 +1548,17 @@
                         const reader = new FileReader();
                         reader.onload = (event) => {
                             try {
-                                JSON.parse(event.target.result);
-                                localStorage.setItem('adLawProgress', event.target.result);
+                                const parsed = JSON.parse(event.target.result);
+                                if (parsed.progress) {
+                                    localStorage.setItem('adLawProgress', JSON.stringify(parsed.progress));
+                                    if (parsed.activeSession) {
+                                        localStorage.setItem('adLawActiveSession', JSON.stringify(parsed.activeSession));
+                                    }
+                                } else {
+                                    localStorage.setItem('adLawProgress', event.target.result);
+                                }
                                 alert('学习进度导入成功！');
+                                this.checkActiveSession();
                             } catch (err) {
                                 alert('导入失败，文件内容有误！');
                             }
@@ -1422,9 +1569,11 @@
             },
 
             clearData() {
-                if (confirm('确认清空所有错题与学习数据吗？此操作无法撤销。')) {
+                if (confirm('确认清空所有做题缓存与错题数据吗？此操作无法撤销。')) {
                     localStorage.removeItem('adLawProgress');
-                    alert('数据已重置！');
+                    localStorage.removeItem('adLawActiveSession');
+                    this.checkActiveSession();
+                    alert('所有数据与历史缓存已清空！');
                 }
             },
 
@@ -1444,3 +1593,4 @@
     </script>
 </body>
 </html>
+```
