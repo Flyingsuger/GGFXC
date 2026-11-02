@@ -1,3 +1,13 @@
+问题出在填空题每个横线 `<span class="blank unrevealed">` 上没有绑定单独的点击事件，导致逐个点击横线时没有反应。
+
+已经为你升级：
+1. **支持逐个点击横线揭晓**：横线默认显示为 `[点击翻开]`，点击哪一个，哪一个就会**立即在行内翻开**显示对应答案，完全无弹窗、不遮挡。
+2. **支持“一键翻开全部”**：底部依然保留“一键显示全部答案与法条”按钮，点它一次性全翻开。
+3. **法条与记忆按钮自动联动**：只要有任意空翻开或点击了一键显示，下方法条对照和【没记住（继续考）】/【记住了（移出本轮）】按钮就会自动就绪。
+
+以下是修复后的完整代码，直接全选替换即可：
+
+```html
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -115,7 +125,6 @@
             gap: 8px;
         }
 
-        /* 模块列表与进度条 */
         .law-list {
             display: flex;
             flex-direction: column;
@@ -238,7 +247,6 @@
             display: none !important;
         }
 
-        /* 答题页面样式 */
         .quiz-header {
             background: white;
             border-bottom: 1px solid var(--gray-200);
@@ -308,7 +316,7 @@
             margin-bottom: 20px;
         }
 
-        /* 直接填入横线的样式，告别弹窗 */
+        /* 修复后的交互横线样式 */
         .blank {
             display: inline-flex;
             align-items: center;
@@ -322,13 +330,22 @@
             vertical-align: middle;
             height: 28px;
             line-height: 26px;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
         }
 
         .blank.unrevealed {
-            color: #94a3b8;
+            color: #64748b;
             font-size: 12px;
-            letter-spacing: 1px;
-            border-bottom-style: dashed;
+            letter-spacing: 0.5px;
+            border-bottom: 2px dashed var(--primary);
+            background: #f1f5f9;
+        }
+
+        .blank.unrevealed:hover {
+            background: #e2e8f0;
+            color: var(--primary);
         }
 
         .blank.revealed {
@@ -336,6 +353,7 @@
             color: var(--primary-dark);
             font-weight: 700;
             border-bottom-color: var(--success);
+            cursor: default;
         }
 
         .options {
@@ -435,7 +453,6 @@
             line-height: 1.7;
         }
 
-        /* 记忆确认按键面板 */
         .memory-panel {
             display: flex;
             gap: 12px;
@@ -474,19 +491,6 @@
 
         .memory-btn-forget:active {
             background: #fca5a5;
-        }
-
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: white;
-            border-top: 1px solid var(--gray-200);
-            padding: 12px 20px;
-            display: flex;
-            gap: 12px;
-            z-index: 100;
         }
 
         @media (max-width: 640px) {
@@ -531,7 +535,7 @@
             <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
             </svg>
-            单元独立攻坚（记住宅题淘汰）
+            单元独立攻坚（记住即淘汰）
         </div>
 
         <!-- 9个模块独立列表 -->
@@ -978,30 +982,27 @@
             ]
         };
 
-        // 为题库注入唯一标识 id
         questionBank.fillBlanks.forEach((q, idx) => { q.id = `fb_${idx}`; q.type = 'fillBlank'; q.originalIndex = idx; });
         questionBank.trueFalse.forEach((q, idx) => { q.id = `tf_${idx}`; q.type = 'trueFalse'; q.originalIndex = idx; });
         questionBank.multipleChoice.forEach((q, idx) => { q.id = `mc_${idx}`; q.type = 'multipleChoice'; q.originalIndex = idx; });
 
         window.app = {
-            queue: [],             // 当前轮次题目队列（淘汰制）
+            queue: [],
             currentQuestion: null,
-            currentLawIndex: null, // null表示全真总测试，数字0-8表示具体单元
+            currentLawIndex: null,
             isWeakMode: false,
-            userAnsweredState: {}, // 临时状态
+            userAnsweredState: {},
 
             init() {
                 this.renderLawModules();
                 this.updateWeakCount();
             },
 
-            // 读取已记住的题目 ID 数组
             getRememberedIds(lawIdx) {
                 const key = `remembered_law_${lawIdx}`;
                 return JSON.parse(localStorage.getItem(key) || '[]');
             },
 
-            // 存储记住的 ID
             addRememberedId(lawIdx, qId) {
                 const list = this.getRememberedIds(lawIdx);
                 if (!list.includes(qId)) {
@@ -1010,7 +1011,6 @@
                 }
             },
 
-            // 获取错题记录（只对全局有效）
             getGlobalWrongMap() {
                 return JSON.parse(localStorage.getItem('global_wrong_map') || '{}');
             },
@@ -1029,7 +1029,6 @@
                 if (el) el.textContent = total > 0 ? `共 ${total} 道错题强化` : '暂无错题';
             },
 
-            // 获取单元全部题集
             getUnitAllQuestions(lawIdx) {
                 return [
                     ...questionBank.fillBlanks.filter(q => q.law === lawIdx),
@@ -1038,7 +1037,6 @@
                 ];
             },
 
-            // 渲染单元卡片及独立进度条
             renderLawModules() {
                 const container = document.getElementById('lawListContainer');
                 container.innerHTML = '';
@@ -1071,7 +1069,6 @@
                 });
             },
 
-            // 重置单元独立进度
             resetUnit(lawIdx) {
                 if (confirm(`确认重置 ${LAW_NAMES[lawIdx]} 的练习进度吗？已记题目将重新回到题库。`)) {
                     localStorage.removeItem(`remembered_law_${lawIdx}`);
@@ -1079,11 +1076,9 @@
                 }
             },
 
-            // 开启单元攻坚（循环淘汰模式）
             startUnitQuiz(lawIdx) {
                 const allList = this.getUnitAllQuestions(lawIdx);
                 const remList = this.getRememberedIds(lawIdx);
-                // 过滤出未被记住的题目池
                 let pool = allList.filter(q => !remList.includes(q.id));
 
                 if (pool.length === 0) {
@@ -1106,7 +1101,6 @@
                 this.nextQuestionInQueue();
             },
 
-            // 顶部：全题型总测试（完整测试，不淘汰）
             startGlobalTest() {
                 const all = [
                     ...questionBank.fillBlanks,
@@ -1125,7 +1119,6 @@
                 this.nextQuestionInQueue();
             },
 
-            // 顶部：错题集专练
             startWeakPoints() {
                 const map = this.getGlobalWrongMap();
                 const all = [
@@ -1151,7 +1144,6 @@
                 this.nextQuestionInQueue();
             },
 
-            // 推进到队列中的下一题
             nextQuestionInQueue() {
                 if (this.queue.length === 0) {
                     alert('🎉 恭喜你！本轮题目已全部攻克掌握！');
@@ -1161,7 +1153,8 @@
 
                 this.currentQuestion = this.queue[0];
                 this.userAnsweredState = {
-                    revealed: false,
+                    revealedAll: false,
+                    revealedSet: new Set(),
                     selected: []
                 };
 
@@ -1182,25 +1175,31 @@
                 }
             },
 
-            // 填空题渲染：直接在横线上显示/不弹窗
+            // 彻底解决填空题横线点击与逐个翻开
             renderFillBlankView(q) {
                 let counter = 0;
-                const isRevealed = this.userAnsweredState.revealed;
+                const isRevealedAll = this.userAnsweredState.revealedAll;
+                const revealedSet = this.userAnsweredState.revealedSet || new Set();
 
+                // 替换所有下划线挖空为带独立 index 的 span
                 const textHTML = q.text.replace(/__/g, () => {
                     const cIdx = counter++;
                     const ans = q.blanks[cIdx] || '';
+                    const isRevealed = isRevealedAll || revealedSet.has(cIdx);
+
                     if (isRevealed) {
                         return `<span class="blank revealed">${ans}</span>`;
                     } else {
-                        return `<span class="blank unrevealed">（点击显示）</span>`;
+                        return `<span class="blank unrevealed" onclick="window.app.revealSingleBlank(${cIdx})">[点击翻开]</span>`;
                     }
                 });
 
+                // 是否有任何空被翻开，如果有就显示法条与底部判定按钮
+                const hasAnyRevealed = isRevealedAll || revealedSet.size > 0;
                 let clauseHTML = '';
                 let actionHTML = '';
 
-                if (isRevealed) {
+                if (hasAnyRevealed) {
                     const clause = getClauseText('fillblank', q.originalIndex, q.law);
                     clauseHTML = `
                         <div class="law-reference-box">
@@ -1218,32 +1217,42 @@
                             </button>
                         </div>
                     `;
-                } else {
-                    actionHTML = `
-                        <div style="margin-top: 24px;">
-                            <button class="btn btn-primary" style="width: 100%; padding: 12px;" onclick="window.app.revealFillBlank()">
-                                点击查看填空答案与法条
-                            </button>
-                        </div>
-                    `;
                 }
+
+                const revealAllButton = !isRevealedAll ? `
+                    <div style="margin-top: 18px;">
+                        <button class="btn btn-outline" style="width: 100%; padding: 10px;" onclick="window.app.revealAllBlanks()">
+                            一键翻开全部填空与法条
+                        </button>
+                    </div>
+                ` : '';
 
                 return `
                     <div class="question-card">
                         <span class="question-type">填空题</span>
                         <div class="question-text">${textHTML}</div>
+                        ${revealAllButton}
                         ${clauseHTML}
                         ${actionHTML}
                     </div>
                 `;
             },
 
-            revealFillBlank() {
-                this.userAnsweredState.revealed = true;
+            // 点击单个横线翻开
+            revealSingleBlank(idx) {
+                if (!this.userAnsweredState.revealedSet) {
+                    this.userAnsweredState.revealedSet = new Set();
+                }
+                this.userAnsweredState.revealedSet.add(idx);
                 this.renderCurrentQuestion();
             },
 
-            // 判断题渲染
+            // 一键翻开全部
+            revealAllBlanks() {
+                this.userAnsweredState.revealedAll = true;
+                this.renderCurrentQuestion();
+            },
+
             renderTrueFalseView(q) {
                 const isAnswered = this.userAnsweredState.answered !== undefined;
                 const userAns = this.userAnsweredState.answered;
@@ -1300,7 +1309,6 @@
                 this.renderCurrentQuestion();
             },
 
-            // 多选题渲染
             renderMultipleChoiceView(q) {
                 const isChecked = this.userAnsweredState.checked;
                 const labels = ['A', 'B', 'C', 'D'];
@@ -1388,17 +1396,14 @@
                 this.renderCurrentQuestion();
             },
 
-            // 核心交互：记住 / 没记住
             handleMemoryDecision(remembered) {
-                const current = this.queue.shift(); // 弹出当前题
+                const current = this.queue.shift();
 
                 if (remembered) {
-                    // 如果是在单元测试模式，记入独立持久化存储
                     if (this.currentLawIndex !== null) {
                         this.addRememberedId(this.currentLawIndex, current.id);
                     }
                 } else {
-                    // 没记住：本轮重新放入末尾继续考
                     this.queue.push(current);
                 }
 
@@ -1482,3 +1487,4 @@
     </script>
 </body>
 </html>
+```
